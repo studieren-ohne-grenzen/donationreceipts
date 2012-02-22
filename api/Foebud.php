@@ -322,6 +322,7 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
   $dompdf = new DOMPDF();
   $dompdf->set_paper('a4');
   $dompdf->load_html($html);
+  $dompdf->set_base_path($template_dir);
   $dompdf->render();
   $status = file_put_contents($outfile, $dompdf->output(array("compress" => 0)));
 
