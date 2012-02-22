@@ -30,6 +30,9 @@ $params = array("from_date"  => $from_date,
 		"to_date"    => $to_date
 		);
 
+// Creating a lot of documents can take quite long...
+set_time_limit(0);
+
 $result = civicrm_foebud_zuwendungsbescheinigung($params);
 
 if (empty($result)) {
