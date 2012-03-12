@@ -39,14 +39,8 @@ if (empty($result)) {
   die("Keine Bescheinigungen fuer diesen Zeitraum ($from_date - $to_date)<br/>oder Bescheinigungen wurden bereits erstellt");
 }
 
-$docs = array();
-
-foreach ($result as $contact_id => $data) {
-  $docs[$data['filename']] = $data['total_amount'];
-}
-
-asort($docs);
-$docs = array_reverse($docs, true);
+// $result is already sorted by contact_id
+$docs = array_flip(array_map(function ($elem) { return $elem['filename']; }, $result));
 
 $tmp_name = tempnam("/tmp", "civicrm");
 

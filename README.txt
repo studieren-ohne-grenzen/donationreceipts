@@ -143,11 +143,11 @@ Die erstellten Bescheinigungen werden dabei direkt bei
 dem jeweiligen Kontakt hinterlegt und am Ende des Vorgangs
 gesammelt als ein kombiniertes PDF-Dokument übertragen.
 Innerhalb dieses Dokumentes sind die einzelnen Bescheinigungen
-nicht alphabetsich nach Kontaktnamen sondern absteigend nach
-der Höhe des bescheinigten Betrages sortiert. Damit ist
-es möglich bis direkt vor dem eigentlichen Drucken zu 
-entscheiden bis zu welchem Minimalbetrag Bescheinigungen
-gedruckt und verschickt werden sollen.
+nach der CiviCRM-ID der jeweiligen Kontakte sortiert. Da diese
+Sortierung garantiert zuverlässig ist, können die so gedruckten
+Bescheinigungen beispielsweise bei einem Lettershop automatisch
+mit ebenfalls aus CiviCRM exportierten Adressdaten zusammengeführt
+werden.
 
 Sollte die Erstellung der PDFs zu lange dauern und der
 Browser mit einem Timeout abbrechen so kann zZ. das 
