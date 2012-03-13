@@ -27,7 +27,8 @@ if ($year == date("Y")) {
 $to_date .= " 23:59:59";
 
 $params = array("from_date"  => $from_date,
-		"to_date"    => $to_date
+		"to_date"    => $to_date,
+		"comment"    => "Jahresbescheinigung $year"
 		);
 
 // Creating a lot of documents can take quite long...

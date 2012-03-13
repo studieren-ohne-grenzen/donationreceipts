@@ -124,6 +124,7 @@ function civicrm_foebud_zuwendungsbescheinigung($params)
   $from_date = CRM_Utils_Array::value('from_date',   $params);
   $to_date   = CRM_Utils_Array::value('to_date',     $params);
   $ids       = CRM_Utils_Array::value('contact_id',  $params);
+  $comment   = CRM_Utils_Array::value('comment',     $params);
 
   $from_ts = strtotime($from_date);
   $to_ts   = strtotime($to_date);
@@ -182,7 +183,7 @@ function civicrm_foebud_zuwendungsbescheinigung($params)
       if ($last_id >= 0) {
         // contact_id different than last one -> render receipt for now completely
         // fetched last/previous contact
-	$result[$last_id] = render_beleg_pdf($last_id, $address, $total, $items, $from_date, $to_date);
+	$result[$last_id] = render_beleg_pdf($last_id, $address, $total, $items, $from_date, $to_date, $comment);
       }
 
       // fetch new contact/address data 
@@ -234,13 +235,13 @@ function civicrm_foebud_zuwendungsbescheinigung($params)
 
   // all done? finish up last found contact
   if ($last_id >= 0) {
-    $result[$last_id] = render_beleg_pdf($last_id, $address, $total, $items, $from_date, $to_date);
+    $result[$last_id] = render_beleg_pdf($last_id, $address, $total, $items, $from_date, $to_date, $comment);
   }
 
   return $result;
 }
 
-function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to_date)
+function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to_date, $comment)
 {
   global $civicrm_root;
 
@@ -344,7 +345,7 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
                       , $docs[field_date]     = NOW()
                       , $docs[field_from]     = '$from_date'
                       , $docs[field_to]       = '$to_date'
-                      , $docs[field_comment]  = ''
+                      , $docs[field_comment]  = '$comment'
                       , $docs[field_file]     =  {$file->id}
                       , entity_id = $contact_id
            ";
