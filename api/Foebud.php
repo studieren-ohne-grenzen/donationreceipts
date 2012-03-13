@@ -135,7 +135,9 @@ function civicrm_foebud_zuwendungsbescheinigung($params)
   if (!empty($ids)) {
     $and_contact_ids = "AND p.id IN (".join(",", (array)$ids).")";
   } else {
-    $and_contact_ids = "";
+    // Only create receipts for contacts with a valid (primary) address.
+    // Note: This check only works properly for German addresses!
+    $and_contact_ids = "AND a.street_address IS NOT NULL and a.postal_code IS NOT NULL and a.city IS NOT NULL";
   }
 
   $query = " SELECT p.id
