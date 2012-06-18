@@ -1,27 +1,8 @@
 == Installation ==
 
-Wir haben unsere Erweiterungen in zwei generelle Kategorien aufgeteilt:
-
-* erweiterte interne Funktionalitäten kapseln wir, wenn möglich, in FoeBuD-spezifische zusätzliche API-Funktionen. 
-
-* Änderungen an der Benutzeroberfläche (über CiviCRM Hooks) und zusätzliche eigene Scripte sammeln wir in einem zusätzlichen Drupal Modul "foebud_civicrm"
-
-=== FoeBuD Drupal Modul ===
-
 Das gesamte "foebud_civicrm" Verzeichnis muss in den CiviCRM "modules"
 Ordner kopiert werden. Danach muss das Modul in der Drupal Verwaltung
 aktiviert werden (Drupal Menü -> Verwaltung -> Strukturierung -> Module)
-
-=== FoeBuD CiviCRM API Erweiterung ===
-
-Diese werden im "civicrm/api/v2" Verzeichnis innerhalb des CiviCRM 
-Moduls in der zusätzlichen Datei "api/Foebud.php" gesammelt. Diese Datei 
-muss ins passende Verzeichnis "civicrm/api/v2" gelinkt werden und 
-wird dort automatisch erkannt, weitere Konfigurationsänderungen sind 
-also nicht nötig.
-
-  cd .../modules/civicrm/api/v2
-  ln -s ../../../foebud_civicrm/api/Foebud.php .
 
 == Konfiguration ==
 

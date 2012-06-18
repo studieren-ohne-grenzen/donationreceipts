@@ -11,7 +11,7 @@ require_once $_GET["conf_path"]."/civicrm.settings.php";
 require_once $civicrm_root . '/CRM/Core/Config.php';
 $config =& CRM_Core_Config::singleton();
 
-require_once $civicrm_root . '/api/v2/Foebud.php';
+require_once '../api/Foebud.php';
 
 $year = @$_GET["year"];
 
