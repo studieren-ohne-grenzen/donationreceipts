@@ -1,0 +1,6 @@
+name = FoeBuD CiviCRM Hooks
+description = FoeBuD CiviCRM Hooks
+dependencies[] = civicrm
+package = CiviCRM
+core = 6.x
+version = 0.1
