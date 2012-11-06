@@ -1,8 +1,9 @@
 == Installation ==
 
-Das gesamte "foebud_civicrm" Verzeichnis muss in den CiviCRM "modules"
-Ordner kopiert werden. Danach muss das Modul in der Drupal Verwaltung
-aktiviert werden (Drupal Menü -> Verwaltung -> Strukturierung -> Module)
+Das gesamte "foebud_civicrm" Verzeichnis muss in den Drupal "modules" Ordner
+kopiert werden. (So dass es direkt neben dem Haupt-Modul von CiviCRM liegt.)
+Danach muss das Modul in der Drupal-Verwaltung aktiviert werden (Drupal Menü
+-> Verwaltung -> Strukturierung -> Module)
 
 == Konfiguration ==
 
