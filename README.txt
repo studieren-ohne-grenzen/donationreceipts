@@ -1,6 +1,6 @@
 == Installation ==
 
-Das gesamte "foebud_civicrm" Verzeichnis muss in den Drupal "modules" Ordner
+Das gesamte "donationreceipts" Verzeichnis muss in den Drupal "modules" Ordner
 kopiert werden. (So dass es direkt neben dem Haupt-Modul von CiviCRM liegt.)
 Danach muss das Modul in der Drupal-Verwaltung aktiviert werden (Drupal Menü
 -> Verwaltung -> Strukturierung -> Module)
@@ -72,7 +72,7 @@ etwas HTML-Kenntnisse und Fummelarbeit nötig. :/
 
 === Einzelbescheinigung unterjährig ===
 
-In der Kontaktansicht wird automatisch ein neuer Reiter "FoeBuD" 
+In der Kontaktansicht wird automatisch ein neuer Reiter "Bescheinigungen erstellen" 
 eingefügt, über diesen kann die Erstellung einer Bescheinigung
 für den aktuellen Kontakt angestoßen werden. Der erfasste 
 Bescheinigungszeitraum reicht dabei vom Enddatum der letzten

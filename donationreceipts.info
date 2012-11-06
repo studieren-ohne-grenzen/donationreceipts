@@ -1,0 +1,6 @@
+name = Donation Receipts
+description = Erweiterung zum Erstellen von Spendenbescheinigungen
+dependencies[] = civicrm
+package = CiviCRM
+core = 6.x
+version = 0.1

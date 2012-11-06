@@ -12,7 +12,7 @@ $modules_url = dirname($config->resourceBase);
 $template = CRM_Core_Smarty::singleton( );
 array_unshift($template->template_dir, getcwd()."/../templates");
 
-$url = $modules_url . "/foebud_civicrm/scripts/zuwendungsbescheinigung.php?contact_id=".$_GET["contact_id"]."&conf_path=".urlencode($_GET["conf_path"]);
+$url = $modules_url . "/donationreceipts/scripts/zuwendungsbescheinigung.php?contact_id=".$_GET["contact_id"]."&conf_path=".urlencode($_GET["conf_path"]);
 
 $bescheinigungen = array();
 for ($year = 2010; $year <= date("Y"); $year++) {
@@ -21,7 +21,7 @@ for ($year = 2010; $year <= date("Y"); $year++) {
 
 $template->assign("bescheinigungen", $bescheinigungen);
 
-$jahr = $modules_url . "/foebud_civicrm/scripts/jahresbescheinigungen.php?conf_path=".urlencode($_GET["conf_path"]);
+$jahr = $modules_url . "/donationreceipts/scripts/jahresbescheinigungen.php?conf_path=".urlencode($_GET["conf_path"]);
 $template->assign("jahr", $jahr);
 
 echo $template->fetch("contact_tab.tpl");

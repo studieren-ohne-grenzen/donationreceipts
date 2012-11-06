@@ -9,12 +9,12 @@ require_once conf_path()."/civicrm.settings.php";
 require_once "CRM/Core/Config.php";
 
 
-function foebud_civicrm_civicrm_tabs( &$tabs, $contactID ) {
+function donationreceipts_civicrm_tabs( &$tabs, $contactID ) {
     $config =& CRM_Core_Config::singleton( );
 
     $tabs[] = array( 'id'    => 'foebudTab',
                      'url'   => dirname($config->resourceBase) 
-                              . "/foebud_civicrm/scripts/contact_tab.php?contact_id=$contactID&conf_path="
+                              . "/donationreceipts/scripts/contact_tab.php?contact_id=$contactID&conf_path="
                               . urlencode(realpath(conf_path())),
                      'title' => FOEBUD_MENU_NAME,
                      'weight' => 300

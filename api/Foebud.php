@@ -271,7 +271,7 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
   $from_ts = strtotime($from_date);
   $to_ts   = strtotime($to_date);
  
-  $template_dir = "$civicrm_root/../foebud_civicrm/templates";
+  $template_dir = "$civicrm_root/../donationreceipts/templates";
 
   // select and set up template type
   if (count($items) > 1) {

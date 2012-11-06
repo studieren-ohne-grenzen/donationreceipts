@@ -1,4 +1,4 @@
 <?php
 
-define('FOEBUD_MENU_NAME', 'FoeBuD');
+define('FOEBUD_MENU_NAME', 'Bescheinigungen erstellen');
 
