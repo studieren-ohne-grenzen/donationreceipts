@@ -1,9 +1,25 @@
 == Installation ==
 
-Das gesamte "donationreceipts" Verzeichnis muss in den Drupal "modules" Ordner
-kopiert werden. (So dass es direkt neben dem Haupt-Modul von CiviCRM liegt.)
-Danach muss das Modul in der Drupal-Verwaltung aktiviert werden (Drupal Menü
--> Verwaltung -> Strukturierung -> Module)
+Zunaechst muessen die Pfade fuer Erweiterungen eingerichtet werden, falls sie
+das noch nicht sind. Dazu muss der Dateisystm-Pfad fuer ein
+Extension-Verzeichnis unter
+
+   Administration->System Settings->Directories->CiviCRM Extensions Directory
+
+eingestellt werden, zum Beispiel auf "/var/www/civicrm-extensions"; und die
+Resource-URL muss unter
+
+   Administration->System Settings->Resource URLs->Extension Resource URL
+
+entsprechend gesetzt werden, zum Beispiel auf "https://<domain>/civicrm-extensions".
+
+Die Extension kann nun installiert werden. Dazu wird das gesammte Verzeichnis
+"sfe.donationreceipts" in das Extension-Verzeichnis kopiert. Danach ist die
+Extension unter
+
+   Administration->Customize Data and Screens->Manage Extensions
+
+verfuegbar, und kann mit "Install" aktiviert werden.
 
 == Konfiguration ==
 
@@ -51,7 +67,8 @@ vorhandenen Feldern zu vermeiden).
 === Bescheinigungs-Templates ===
 
 Die Templates für Einzel- und Sammel-Zuwendungsbescheinigungen
-befinden sich im Ordner "templates" innerhalb des Erweiterungsmoduls.
+befinden sich im Ordner "templates" innerhalb der Extension,
+also beispielsweise "/var/www/civicrm-extensions/sfe.donationreceipts/templates/".
 
 Beide Vorlagen sind als einfache HTML-Vorlagen angelegt und
 werden durch den in CiviCRM enthaltenen HTML->PDF Konverter
