@@ -18,6 +18,81 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+/* Create custom data group and field for the receipts, unless the group already exists. */
+function setup_custom_data()
+{
+  $existing = civicrm_api("CustomGroup", "get", array('version' => '3', 'name' => 'Bescheinigungen'));
+  if (!$existing['count']) {
+    $new = civicrm_api(
+      "CustomGroup",
+      "create",
+      array(
+        'version' => '3',
+        'name' => 'Bescheinigungen',
+        'title' => 'Bescheinigungen',
+        'extends' => 'Contact',
+        'style' => 'Tab',
+        'collapse_display' => '0',
+        'is_active' => '1',
+        'is_multiple' => '1',
+        'created_date' => date('Y-m-d h:i:s'),
+        'api.CustomField.create' => array(    /* Chained API call, using custom_group_id created by outer call. */
+          array(
+            'name' => 'Z_Dateityp',
+            'label' => 'Z_Dateityp',
+            'data_type' => 'String',
+            'html_type' => 'Text',
+            'weight' => '1',
+            'is_active' => '1',
+          ),
+          array(
+            'name' => 'Z_Datei',
+            'label' => 'Z_Datei',
+            'data_type' => 'File',
+            'html_type' => 'File',
+            'weight' => '2',
+            'is_active' => '1',
+          ),
+          array(
+            'name' => 'Z_Datum',
+            'label' => 'Z_Datum',
+            'data_type' => 'Date',
+            'html_type' => 'Select Date',
+            'weight' => '3',
+            'is_active' => '1',
+          ),
+          array(
+            'name' => 'Z_Datum_Von',
+            'label' => 'Z_Datum_Von',
+            'data_type' => 'Date',
+            'html_type' => 'Select Date',
+            'weight' => '4',
+            'is_active' => '1',
+          ),
+          array(
+            'name' => 'Z_Datum_Bis',
+            'label' => 'Z_Datum_Bis',
+            'data_type' => 'Date',
+            'html_type' => 'Select Date',
+            'weight' => '5',
+            'is_active' => '1',
+          ),
+          array(
+            'name' => 'Z_Kommentar',
+            'label' => 'Z_Kommentar',
+            'data_type' => 'Memo',
+            'html_type' => 'TextArea',
+            'weight' => '6',
+            'is_active' => '1',
+          ),
+        )    /* api.CustomField.create */
+      )    /* params */
+    );    /* civcrm_api('CustomGroup', 'create', params) */
+    if (civicrm_error($new))
+      throw new Exception($new['error_message']);
+  }    /* if !$existing */
+}    /* setup_custom_data() */
+
 /**
  * Get custom table and field names for custom group "Bescheinigungen"
  */

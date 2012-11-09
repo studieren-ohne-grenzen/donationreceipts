@@ -25,44 +25,18 @@ verfuegbar, und kann mit "Install" aktiviert werden.
 
 === Custom Felder für die Dokumentablage ===
 
-Damit die erstellten Bescheinigungen bei den einzelnen Kontakten 
-hinterlegt werden können und um bei unterjährigen Bescheinigungen
-feststellen zu können für welche Zeiträume schon Bescheinigungen
-erstellt wurden müssen ein paar zusätzliche benutzerdefinierte
-Felder angelegt werden.
+Bei der Installation wird automatisch eine Benutzerdefinierte Feldgruppe
+"Bescheinigungen" angelegt.
 
-Dazu muss zunächst unter 
+Dies kann eventuell fehlschlagen, falls es Namenskonflikte mit bereits
+vorhandenen benutzerdefinierten Feldern gibt. In dem Fall sind wahrscheinlich
+manuelle Eingriffe in der Datenbank nötig.
 
-  Verwalten -> Einstellungen -> Zusätzliche Daten
-
-eine neue Feldgruppe angelegt werden mit
-
-  Gruppenname: "Bescheinigungen"
-  Benutzt für: "Contacts" (oder "Kontakte")
-  Reihenfolge: egal
-  Erlaubt diese benutzerdefinierte Feldgruppe mehrere Einträge?: [x] (ja)
-  Darstellungsart: Reiter
-  Diese Gruppe beim Seitenaufbau einklappen?: [ ] (nein)
-  Diese Gruppe in der erweiterten Suche einklappen?: egal
-  Ist das benutzerdefinierte Daten-Set aktiv? [x] (ja)
-  ... restliche egal ...
-
-Anschließend müssen in dieser Gruppe Felder mit folgenden Namen 
-und Datentypen angelet werden:
-
-  Z_Dateityp  / Alphanumerisch / Text
-  Z_Datei     / Datei
-  Z_Datum     / Datum
-  Z_Datum_Von / Datum
-  Z_Datum_Bis / Datum
-  Z_Kommentar / Notiz
-
-Für nicht angegebene Eingabefelder einfach die Vorgabewerte
-übernehmen. (Der 'Z_' Prefix ist nötig weil CiviCRM eindeutige
-Feldnamen für Benutzerdefinierte Felder erzwingt, auch wenn 
-es sich um Felder in unterschiedlichen Feldgruppen handelt.
-Der Prefix dient also dazu Namenskollisionen mit evtl. schon
-vorhandenen Feldern zu vermeiden).
+(Aufgrund einer etwas seltsamen Handhabung von Custom-Feldern in CiviCRM reicht
+es derzeit *nicht* aus, die problematischen Felder oder Feldgruppen über die
+Bedienoberfläche umzubenennen! Einzig das Löschen der betroffenen Felder oder
+Feldgruppen -- mitsamt aller dort gespeicherten Daten -- würde den Konflikt
+beheben...)
 
 === Bescheinigungs-Templates ===
 

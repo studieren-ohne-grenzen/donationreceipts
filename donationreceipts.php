@@ -20,6 +20,8 @@
 
 require_once 'donationreceipts.civix.php';
 
+require_once 'backend.php';
+
 /**
  * Implementation of hook_civicrm_config
  */
@@ -40,6 +42,7 @@ function donationreceipts_civicrm_xmlMenu(&$files) {
  * Implementation of hook_civicrm_install
  */
 function donationreceipts_civicrm_install() {
+  setup_custom_data();
   return _donationreceipts_civix_civicrm_install();
 }
 
