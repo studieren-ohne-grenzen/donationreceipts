@@ -32,7 +32,7 @@ array_unshift($template->template_dir, getcwd()."/../templates");
 $url = $config->extensionsURL . "/sfe.donationreceipts/scripts/zuwendungsbescheinigung.php?contact_id=".$_GET["contact_id"]."&conf_path=".urlencode($_GET["conf_path"]);
 
 $bescheinigungen = array();
-for ($year = 2010; $year <= date("Y"); $year++) {
+for ($year = date("Y") - 1; $year <= date("Y"); $year++) {
   $bescheinigungen["$url&year=$year"] = "$year&nbsp;&nbsp;";
 }
 
