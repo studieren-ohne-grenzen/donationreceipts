@@ -6,7 +6,7 @@ require_once $_GET["conf_path"]."/civicrm.settings.php";
 require_once $civicrm_root . '/CRM/Core/Config.php';
 $config =& CRM_Core_Config::singleton();
 
-require_once '../api/Foebud.php';
+require_once '../backend.php';
 
 $year = $_GET["year"];
 $contact_id = $_GET["contact_id"];
@@ -25,7 +25,7 @@ $params = array("contact_id" => $contact_id,
 		"to_date"    => $to_date
 		);
 
-$result = civicrm_foebud_zuwendungsbescheinigung($params);
+$result = generate_receipts($params);
 
 if (empty($result)) {
   echo "<h1>Keine unbescheinigten Zuwendungen fuer diesen Zeitraum</h1>";

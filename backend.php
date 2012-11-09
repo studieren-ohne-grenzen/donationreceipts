@@ -26,25 +26,6 @@
 */
 
 /**
- * File for the CiviCRM APIv2 Foebud custom functions
- *
- * @package CiviCRM_APIv2
- * @subpackage API_Foebud
- *
- * @copyright Foebud e.V. 2011
- * @version $Id: PledgePayment.php 
- *
- */
-
-/**
- * Include utility functions
- */
-require_once 'api/v2/utils.php';
-require_once 'CRM/Utils/Rule.php';
-require_once 'CRM/Utils/String.php';
-require_once 'CRM/Utils/File.php';
-
-/**
  * Get custom table and field names for custom group "Bescheinigungen"
  */
 function get_docs_table()
@@ -113,10 +94,8 @@ function get_docs_table()
   return $docs;
 }
 
-function civicrm_foebud_zuwendungsbescheinigung($params)
+function generate_receipts($params)
 {
-  _civicrm_initialize(true);
-
   $docs = get_docs_table();
 
   $result = array();

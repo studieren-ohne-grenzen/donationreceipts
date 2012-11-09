@@ -11,7 +11,7 @@ require_once $_GET["conf_path"]."/civicrm.settings.php";
 require_once $civicrm_root . '/CRM/Core/Config.php';
 $config =& CRM_Core_Config::singleton();
 
-require_once '../api/Foebud.php';
+require_once '../backend.php';
 
 $year = @$_GET["year"];
 
@@ -34,7 +34,7 @@ $params = array("from_date"  => $from_date,
 // Creating a lot of documents can take quite long...
 set_time_limit(0);
 
-$result = civicrm_foebud_zuwendungsbescheinigung($params);
+$result = generate_receipts($params);
 
 if (empty($result)) {
   die("Keine Bescheinigungen fuer diesen Zeitraum ($from_date - $to_date)<br/>oder Bescheinigungen wurden bereits erstellt");
