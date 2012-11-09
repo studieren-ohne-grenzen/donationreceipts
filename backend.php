@@ -111,53 +111,29 @@ function get_docs_table()
   $docs = array();
   $docs['table'] = $res->table_name;
 
+  $field_mappings = array(
+    'field_filetype' => 'Z_Dateityp',
+    'field_file'     => 'Z_Datei',
+    'field_date'     => 'Z_Datum',
+    'field_from'     => 'Z_Datum_Von',
+    'field_to'       => 'Z_Datum_Bis',
+    'field_comment'  => 'Z_Kommentar',
+  );
+
+  $field_list = "'" . implode("','", $field_mappings) . "'";
   $query = "SELECT name, column_name 
               FROM civicrm_custom_field
              WHERE custom_group_id = $group_id
-               AND name IN ('Z_Dateityp',
-                            'Z_Datei',
-                            'Z_Datum',
-                            'Z_Datum_von',
-                            'Z_Datum_bis',
-                            'Z_Kommentar'
-                           )";
+               AND name IN ($field_list)";
 
   $res = CRM_Core_DAO::executeQuery( $query );
   while ($res->fetch()) {
-    switch ($res->name) {
-    case 'Z_Dateityp':   
-      $docs['field_filetype'] = $res->column_name; 
-      break;
-    case 'Z_Datei':      
-      $docs['field_file']     = $res->column_name; 
-      break;
-    case 'Z_Datum':      
-      $docs['field_date']     = $res->column_name; 
-      break;
-    case 'Z_Datum_von':  
-    case 'Z_Datum_Von':  
-      $docs['field_from']     = $res->column_name; 
-      break;
-    case 'Z_Datum_bis':  
-    case 'Z_Datum_Bis':  
-      $docs['field_to']       = $res->column_name; 
-      break;
-    case 'Z_Kommentar':  
-      $docs['field_comment']  = $res->column_name; 
-      break;
-    default: break;
-    }
+    $docs[array_search($res->name, $field_mappings)] = $res->column_name;
   }
 
-  foreach(array( 'field_filetype' => 'Z_Dateityp'
-               , 'field_file'     => 'Z_Datei'
-               , 'field_date'     => 'Z_Datum'
-               , 'field_from'     => 'Z_Datum_Von'
-               , 'field_to'       => 'Z_Datum_Bis'
-               , 'field_comment'  => 'Z_Kommentar') 
-          as $key => $val) {
-    if (!isset($docs[$key])) die("Benutzerdefiniertes Feld 'Bescheinigungen -> $val' nicht gefunden");
-  }
+  $missing = array_diff_key($field_mappings, $docs);
+  if ($missing)
+    die("Benutzerdefiniertes Feldgruppe 'Bescheinigungen' unvollstaendig: " . implode(', ', $missing) . " nicht gefunden");
 
   return $docs;
 }
