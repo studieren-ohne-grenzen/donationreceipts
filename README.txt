@@ -142,8 +142,9 @@ werden.
 Sollte die Erstellung der PDFs zu lange dauern und der
 Browser mit einem Timeout abbrechen so kann zZ. das 
 PDF-Dokument mit den gesammelten und sortierten Bescheinigungen
-nach Abschluß der Generierung im /tmp Ordner als 
-jahresbescheinigungen.pdf gefunden werden. 
+nach Abschluß der Generierung im /tmp Ordner gefunden werden.
+Der Dateiname wird dabei (aus Sicherheitsgründen) zufällig
+gewählt.
 
 In Zukunft möchte ich versuchen die erzeugte Sammeldatei statt
 dessen bei den Bescheinigungen des aufrufenden Benutzers 
