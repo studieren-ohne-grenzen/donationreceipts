@@ -94,23 +94,11 @@ function setup_custom_data()
 }    /* setup_custom_data() */
 
 /**
- * Get custom table and field names for custom group "Bescheinigungen"
+ * Get custom table and field DB names for custom group "Bescheinigungen"
  */
 function get_docs_table()
 {
-  $query = "SELECT id, table_name
-              FROM civicrm_custom_group
-             WHERE name = 'Bescheinigungen'
-           ";
-  $res =  CRM_Core_DAO::executeQuery( $query );
-  //  $num_rows = $res->numRows();
-  $res->fetch();
-  $group_id = $res->id;
-  if (!$group_id) die("Benuterdefinierte Feldgruppe 'Bescheinigungen' nicht gefunden");
-
-  $docs = array();
-  $docs['table'] = $res->table_name;
-
+  /* Custom field mapping: symbolic keys we use locally to refer to fields => names by which the fields are known to CiviCRM. */
   $field_mappings = array(
     'field_filetype' => 'Z_Dateityp',
     'field_file'     => 'Z_Datei',
@@ -120,15 +108,29 @@ function get_docs_table()
     'field_comment'  => 'Z_Kommentar',
   );
 
-  $field_list = "'" . implode("','", $field_mappings) . "'";
-  $query = "SELECT name, column_name 
-              FROM civicrm_custom_field
-             WHERE custom_group_id = $group_id
-               AND name IN ($field_list)";
+  $result = civicrm_api(
+    'CustomGroup',
+    'get',
+    array(
+      'version' => '3',
+      'name' => 'Bescheinigungen',
+      'api.CustomField.get' => array(    /* Chained API call, using custom_group_id retrieved by outer call. */
+        'name' => array('IN' => $field_mappings)    /* Only get relevant fields, filtering by the custom field name. */
+      )
+    )
+  );
 
-  $res = CRM_Core_DAO::executeQuery( $query );
-  while ($res->fetch()) {
-    $docs[array_search($res->name, $field_mappings)] = $res->column_name;
+  if (!$result['count'])
+    die("Benuterdefinierte Feldgruppe 'Bescheinigungen' nicht gefunden");
+
+  $result_group = $result['values'][$result['id']];
+
+  $docs = array();    /* Custom field mapping: local keys => DB table/field names. */
+  $docs['table'] = $result_group['table_name'];
+
+  foreach ($result_group['api.CustomField.get']['values'] AS $result_field) {
+    $field_key = array_search($result_field['name'], $field_mappings);
+    $docs[$field_key] = $result_field['column_name'];
   }
 
   $missing = array_diff_key($field_mappings, $docs);
