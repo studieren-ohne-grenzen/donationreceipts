@@ -38,6 +38,24 @@ Bedienoberfläche umzubenennen! Einzig das Löschen der betroffenen Felder oder
 Feldgruppen -- mitsamt aller dort gespeicherten Daten -- würde den Konflikt
 beheben...)
 
+=== Zuwendungsarten ===
+
+Zuwendungen werden auf den Bescheinigungen -- je nach Zuwendungsart -- entweder
+als "Mitgliedsbeitrag" oder als "Geldzuwendung" ausgewiesen. Die Entscheidung
+erfolgt anhand einer einfachen Heuristik: Wenn in der Bezeichnung der
+Zuwendungsart das "Mitgliedsbeitrag" (oder "mitgliedsbeitrag") vorkommt -- auch
+in Kombinationen wie "Mitgliedsbeitrag ermaeszigt", oder
+"Foerdermitgliedsbeitrag" -- wird es als "Mitgliedsbeitrag" ausgewiesen; in
+allen anderen Faellen -- zum Beispiel bei "Spenden" -- hingegen als
+"Geldzuwendung".
+
+Falls Zuwendungsarten konfiguriert sind, die mit dieser Heuristik nicht richtig
+zugeordnet werden, muessen diese entsprechend umbenannt werden...
+
+Die Verwaltung von Zuwendungsarten erfolgt unter:
+
+   Administration->CiviContribute->Contribution Types
+
 === Bescheinigungs-Templates ===
 
 Die Templates für Einzel- und Sammel-Zuwendungsbescheinigungen

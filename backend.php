@@ -189,7 +189,13 @@ function generate_receipts($params)
                   , s.name as country
                   , DATE(c.receive_date) AS date
                   , c.total_amount
-                  , if (contribution_type_id = 1, 'Geldzuwendung', 'Mitgliedsbeitrag') AS art
+                  , IF(
+                      contribution_type_id IN (
+                        SELECT id FROM civicrm_contribution_type WHERE name LIKE '%Mitgliedsbeitrag%' OR name LIKE '%mitgliedsbeitrag%'
+                      ),
+                      'Mitgliedsbeitrag',
+                      'Geldzuwendung'
+                    ) AS art
                FROM civicrm_contact      p
                JOIN civicrm_contribution c
                  ON p.id = c.contact_id
