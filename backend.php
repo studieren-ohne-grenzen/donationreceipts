@@ -18,54 +18,54 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-define('CUSTOM_TABLE_NAME', 'Bescheinigungen');
+define('CUSTOM_TABLE_NAME', 'sfe_donationreceipts');
 
 function get_custom_fields_meta()
 {
   return array(
     'field_filetype' => array(
-      'name' => 'Z_Dateityp',
-      'label' => 'Z_Dateityp',
+      'name' => 'sfe_donationreceipts_type',
+      'label' => 'Art',
       'data_type' => 'String',
       'html_type' => 'Text',
       'weight' => '1',
       'is_active' => '1',
     ),
     'field_file' => array(
-      'name' => 'Z_Datei',
-      'label' => 'Z_Datei',
+      'name' => 'sfe_donationreceipts_file',
+      'label' => 'Datei',
       'data_type' => 'File',
       'html_type' => 'File',
       'weight' => '2',
       'is_active' => '1',
     ),
     'field_date' => array(
-      'name' => 'Z_Datum',
-      'label' => 'Z_Datum',
+      'name' => 'sfe_donationreceipts_date_created',
+      'label' => 'erstellt am',
       'data_type' => 'Date',
       'html_type' => 'Select Date',
       'weight' => '3',
       'is_active' => '1',
     ),
     'field_from' => array(
-      'name' => 'Z_Datum_Von',
-      'label' => 'Z_Datum_Von',
+      'name' => 'sfe_donationreceipts_timespan_from',
+      'label' => 'Zeitraum von',
       'data_type' => 'Date',
       'html_type' => 'Select Date',
       'weight' => '4',
       'is_active' => '1',
     ),
     'field_to' => array(
-      'name' => 'Z_Datum_Bis',
-      'label' => 'Z_Datum_Bis',
+      'name' => 'sfe_donationreceipts_timespan_to',
+      'label' => 'Zeitraum bis',
       'data_type' => 'Date',
       'html_type' => 'Select Date',
       'weight' => '5',
       'is_active' => '1',
     ),
     'field_comment' => array(
-      'name' => 'Z_Kommentar',
-      'label' => 'Z_Kommentar',
+      'name' => 'sfe_donationreceipts_comment',
+      'label' => 'Kommentar',
       'data_type' => 'Memo',
       'html_type' => 'TextArea',
       'weight' => '6',
