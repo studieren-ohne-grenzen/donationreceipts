@@ -18,17 +18,74 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+define('CUSTOM_TABLE_NAME', 'Bescheinigungen');
+
+function get_custom_fields_meta()
+{
+  return array(
+    'field_filetype' => array(
+      'name' => 'Z_Dateityp',
+      'label' => 'Z_Dateityp',
+      'data_type' => 'String',
+      'html_type' => 'Text',
+      'weight' => '1',
+      'is_active' => '1',
+    ),
+    'field_file' => array(
+      'name' => 'Z_Datei',
+      'label' => 'Z_Datei',
+      'data_type' => 'File',
+      'html_type' => 'File',
+      'weight' => '2',
+      'is_active' => '1',
+    ),
+    'field_date' => array(
+      'name' => 'Z_Datum',
+      'label' => 'Z_Datum',
+      'data_type' => 'Date',
+      'html_type' => 'Select Date',
+      'weight' => '3',
+      'is_active' => '1',
+    ),
+    'field_from' => array(
+      'name' => 'Z_Datum_Von',
+      'label' => 'Z_Datum_Von',
+      'data_type' => 'Date',
+      'html_type' => 'Select Date',
+      'weight' => '4',
+      'is_active' => '1',
+    ),
+    'field_to' => array(
+      'name' => 'Z_Datum_Bis',
+      'label' => 'Z_Datum_Bis',
+      'data_type' => 'Date',
+      'html_type' => 'Select Date',
+      'weight' => '5',
+      'is_active' => '1',
+    ),
+    'field_comment' => array(
+      'name' => 'Z_Kommentar',
+      'label' => 'Z_Kommentar',
+      'data_type' => 'Memo',
+      'html_type' => 'TextArea',
+      'weight' => '6',
+      'is_active' => '1',
+    ),
+  );
+}
+
 /* Create custom data group and field for the receipts, unless the group already exists. */
 function setup_custom_data()
 {
-  $existing = civicrm_api("CustomGroup", "get", array('version' => '3', 'name' => 'Bescheinigungen'));
+  $existing = civicrm_api("CustomGroup", "get", array('version' => '3', 'name' => CUSTOM_TABLE_NAME));
   if (!$existing['count']) {
+    $fields = array_values(get_custom_fields_meta());    /* Strip symbolic keys, as these confuse the API. */
     $new = civicrm_api(
       "CustomGroup",
       "create",
       array(
         'version' => '3',
-        'name' => 'Bescheinigungen',
+        'name' => CUSTOM_TABLE_NAME,
         'title' => 'Bescheinigungen',
         'extends' => 'Contact',
         'style' => 'Tab',
@@ -36,58 +93,9 @@ function setup_custom_data()
         'is_active' => '1',
         'is_multiple' => '1',
         'created_date' => date('Y-m-d h:i:s'),
-        'api.CustomField.create' => array(    /* Chained API call, using custom_group_id created by outer call. */
-          array(
-            'name' => 'Z_Dateityp',
-            'label' => 'Z_Dateityp',
-            'data_type' => 'String',
-            'html_type' => 'Text',
-            'weight' => '1',
-            'is_active' => '1',
-          ),
-          array(
-            'name' => 'Z_Datei',
-            'label' => 'Z_Datei',
-            'data_type' => 'File',
-            'html_type' => 'File',
-            'weight' => '2',
-            'is_active' => '1',
-          ),
-          array(
-            'name' => 'Z_Datum',
-            'label' => 'Z_Datum',
-            'data_type' => 'Date',
-            'html_type' => 'Select Date',
-            'weight' => '3',
-            'is_active' => '1',
-          ),
-          array(
-            'name' => 'Z_Datum_Von',
-            'label' => 'Z_Datum_Von',
-            'data_type' => 'Date',
-            'html_type' => 'Select Date',
-            'weight' => '4',
-            'is_active' => '1',
-          ),
-          array(
-            'name' => 'Z_Datum_Bis',
-            'label' => 'Z_Datum_Bis',
-            'data_type' => 'Date',
-            'html_type' => 'Select Date',
-            'weight' => '5',
-            'is_active' => '1',
-          ),
-          array(
-            'name' => 'Z_Kommentar',
-            'label' => 'Z_Kommentar',
-            'data_type' => 'Memo',
-            'html_type' => 'TextArea',
-            'weight' => '6',
-            'is_active' => '1',
-          ),
-        )    /* api.CustomField.create */
-      )    /* params */
-    );    /* civcrm_api('CustomGroup', 'create', params) */
+        'api.CustomField.create' => $fields    /* Chained API call, using custom_group_id created by outer call. */
+      )
+    );
     if (civicrm_error($new))
       throw new Exception($new['error_message']);
   }    /* if !$existing */
@@ -99,21 +107,14 @@ function setup_custom_data()
 function get_docs_table()
 {
   /* Custom field mapping: symbolic keys we use locally to refer to fields => names by which the fields are known to CiviCRM. */
-  $field_mappings = array(
-    'field_filetype' => 'Z_Dateityp',
-    'field_file'     => 'Z_Datei',
-    'field_date'     => 'Z_Datum',
-    'field_from'     => 'Z_Datum_Von',
-    'field_to'       => 'Z_Datum_Bis',
-    'field_comment'  => 'Z_Kommentar',
-  );
+  $field_mappings = array_map(function ($field) { return $field['name']; }, get_custom_fields_meta());
 
   $result = civicrm_api(
     'CustomGroup',
     'get',
     array(
       'version' => '3',
-      'name' => 'Bescheinigungen',
+      'name' => CUSTOM_TABLE_NAME,
       'api.CustomField.get' => array(    /* Chained API call, using custom_group_id retrieved by outer call. */
         'name' => array('IN' => $field_mappings)    /* Only get relevant fields, filtering by the custom field name. */
       )
@@ -121,7 +122,7 @@ function get_docs_table()
   );
 
   if (!$result['count'])
-    die("Benuterdefinierte Feldgruppe 'Bescheinigungen' nicht gefunden");
+    die('Benuterdefinierte Feldgruppe "'.CUSTOM_TABLE_NAME.'" nicht gefunden.');
 
   $result_group = $result['values'][$result['id']];
 
@@ -135,7 +136,7 @@ function get_docs_table()
 
   $missing = array_diff_key($field_mappings, $docs);
   if ($missing)
-    die("Benutzerdefiniertes Feldgruppe 'Bescheinigungen' unvollstaendig: " . implode(', ', $missing) . " nicht gefunden");
+    die('Benutzerdefiniertes Feldgruppe "'.CUSTOM_TABLE_NAME.'" unvollstaendig: "' . implode('", "', $missing) . '" nicht gefunden.');
 
   return $docs;
 }
