@@ -98,6 +98,17 @@ function setup_custom_data()
     );
     if (civicrm_error($new))
       throw new Exception($new['error_message']);
+
+    /* Ugly ugly workaround for broken API always setting 'name' same as 'label'... */
+    foreach ($new['values'][$new['id']]['api.CustomField.create'] as $result) {
+      $result_field = $result['values'][0];
+      foreach ($fields as $field) {
+        if ($result_field['label'] == $field['label'] && $result_field['name'] != $field['name']) {
+          CRM_Core_DAO::executeQuery("UPDATE civicrm_custom_field SET name='{$field['name']}' WHERE id='{$result_field['id']}'");
+        }
+      }
+    }
+
   }    /* if !$existing */
 }    /* setup_custom_data() */
 
