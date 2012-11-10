@@ -51,8 +51,7 @@ vorhandenen Feldern zu vermeiden).
 === Bescheinigungs-Templates ===
 
 Die Templates für Einzel- und Sammel-Zuwendungsbescheinigungen
-befinden sich im Ordner foebud_civicrm/templates/bescheinigungen
-im FoeBuD Drupal Modul.
+befinden sich im Ordner "templates" innerhalb des Erweiterungsmoduls.
 
 Beide Vorlagen sind als einfache HTML-Vorlagen angelegt und
 werden durch den in CiviCRM enthaltenen HTML->PDF Konverter
