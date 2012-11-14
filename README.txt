@@ -77,6 +77,14 @@ durcheinander. Bis man die Templates soweit angepasst hat das
 das Layout der ersten Bescheinigungsseite passt sind also leider
 etwas HTML-Kenntnisse und Fummelarbeit nötig. :/
 
+=== Menü ===
+
+Solange die Extension aktiv ist, wird im Untermenü "Contributions"
+("Zuwendungen") am Ende der Punkt "Jahresbecheinigungen" angefügt. Achtung:
+Dieser Menüpunkt kann *nicht* mit dem Menüeditor bearbeitet werden! Er
+erscheint *immer* an dieser Stelle -- und er erscheint gar nicht, falls
+"Contributions" nicht vorhanden ist.
+
 == Bedienung ==
 
 === Einzelbescheinigung unterjährig ===
@@ -114,14 +122,9 @@ Benutzer über das Recht zum Löschen von Kontaktdaten verfügt.
 
 Ein Batchlauf zur Erstellung aller noch anstehenden 
 Zuwendungsbescheinigungen für das Vorjahr können
-über den Link "Jahresbescheinigungen" im "FoeBuD" Reiter
-eines beliebigen Kontaktes angestoßen werden.
+angestoßen werden über:
 
-(Eigentlich sollte es hierfür einen Menüpunkt im CiviCRM
-Menü geben statt des Umweges über einen konkreten Kontakt,
-wegen eines Fehlers in der Menüverwaltung von CiviCRM ist
-dies allerdings zur Zeit nicht zuverlässig möglich, daher
-der aktuelle nicht wirklich logische Umweg ... ):
+   Contributions->Jahresbescheinigungen
 
 Die Erstellung jeder einzelnen Bescheinigung nimmt dabei
 jeweils etwa eine Sekunde in Anspruch (hängt natürlich

@@ -100,3 +100,35 @@ function donationreceipts_civicrm_tabs( &$tabs, $contactID ) {
                      'weight' => 300
                      );
 }
+
+function donationreceipts_civicrm_navigationMenu(&$menu) {
+  /* Invoke the callback function on each existing menu item at any depth. */
+  function menu_walk(&$menu, $callback) {
+    foreach ($menu as &$item) {
+      if (!empty($item['child']))
+        menu_walk($item['child'], $callback);
+      $callback($item);
+    }
+  }
+
+  /* Add menu entry at end of "Contributions" submenu. */
+  menu_walk($menu, function (&$submenu) {
+    if ($submenu['attributes']['name'] == 'Contributions') {
+      /* First, add separator after original last element. */
+      if (!empty($submenu['child'])) {
+        $last_key = array_pop(array_keys($submenu['child']));
+        $submenu['child'][$last_key]['attributes']['separator'] = 1;
+      }
+
+      $submenu['child'][] = array(
+        'attributes' => array(
+          'label' => 'Jahresbescheinigungen',
+          'name' => 'receipts_batch',
+          'url' => 'civicrm/donationreceipts/jahresbescheinigungen',
+          'active' => 1
+        )
+      );
+    }
+  });
+
+}

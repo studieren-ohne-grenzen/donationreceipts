@@ -33,9 +33,6 @@ class CRM_Donationreceipts_Page_ContactTab extends CRM_Core_Page {
 
     $this->assign("bescheinigungen", $bescheinigungen);
 
-    $jahr = CRM_Utils_System::url("civicrm/donationreceipts/jahresbescheinigungen", "snippet=1");
-    $this->assign("jahr", $jahr);
-
     parent::run();
   }
 }
