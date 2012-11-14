@@ -94,12 +94,8 @@ function donationreceipts_civicrm_managed(&$entities) {
 function donationreceipts_civicrm_tabs( &$tabs, $contactID ) {
     require_once "config.php";
 
-    $config =& CRM_Core_Config::singleton( );
-
     $tabs[] = array( 'id'    => 'foebudTab',
-                     'url'   => $config->extensionsURL
-                              . "/sfe.donationreceipts/scripts/contact_tab.php?contact_id=$contactID&conf_path="
-                              . urlencode(realpath(conf_path())),
+                     'url'   => CRM_Utils_System::url("civicrm/donationreceipts/contact-tab", "snippet=1&contact_id=$contactID"),
                      'title' => FOEBUD_MENU_NAME,
                      'weight' => 300
                      );
