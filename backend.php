@@ -152,6 +152,36 @@ function get_docs_table()
   return $docs;
 }
 
+function saveDocument($contact_id, $filename, $mimetype, $filetype, $date, $date_from, $date_to, $comment)
+{
+  $docs = get_docs_table();
+
+  $file = new CRM_Core_DAO_File();
+  $file->mime_type = $mimetype;
+  $file->uri = $filename;
+  $file->upload_date = date('Ymd');
+  $file->save();
+
+  $entityFile = new CRM_Core_DAO_EntityFile();
+  $entityFile->file_id = $file->id;
+  $entityFile->entity_id = $contact_id;
+  $entityFile->entity_table = $docs['table'];
+  $entityFile->save();
+
+  $stmt = "INSERT INTO $docs[table]
+                   SET $docs[field_filetype] = '$filetype'
+                     , $docs[field_date]     = '$date'
+                     , $docs[field_from]     = '$date_from'
+                     , $docs[field_to]       = '$date_to'
+                     , $docs[field_comment]  = '$comment'
+                     , $docs[field_file]     =  {$file->id}
+                     , entity_id = $contact_id
+          ";
+  $res = & CRM_Core_DAO::executeQuery( $stmt );
+
+  return $file->id;
+}
+
 function generate_receipts($params)
 {
   $docs = get_docs_table();
@@ -370,38 +400,16 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
   $dompdf->render();
   $status = file_put_contents($outfile, $dompdf->output(array("compress" => 0)));
 
-  // create CiviCRM file entity from created PDF file
-  $file = new CRM_Core_DAO_File();
-  $file->mime_type = 'application/pdf';
-  $file->uri = $basename;
-  $file->upload_date = date('Ymd');
-  $file->save();
-  $entityFile = new CRM_Core_DAO_EntityFile();
-  $entityFile->file_id = $file->id;
-  $entityFile->entity_id = $contact_id;
-  $entityFile->entity_table = $docs['table'];
-  $entityFile->save();
-
-  // create custom field entry for generated file entity
-  $query = "INSERT INTO $docs[table]
-                    SET $docs[field_filetype] = 'Spendenbescheinigung'
-                      , $docs[field_date]     = NOW()
-                      , $docs[field_from]     = '$from_date'
-                      , $docs[field_to]       = '$to_date'
-                      , $docs[field_comment]  = '$comment'
-                      , $docs[field_file]     =  {$file->id}
-                      , entity_id = $contact_id
-           ";
-  $res = & CRM_Core_DAO::executeQuery( $query );
+  $file_id = saveDocument($contact_id, $basename, "application/pdf", "Spendenbescheinigung", date("Y-m-d"), $from_date, $to_date, $comment);
 
   // return summary data and CiviCRM URL to generated file
   return array("contact_id"   => $contact_id, 
-	       "file_id"      => $file->id, 
+	       "file_id"      => $file_id,
 	       "from_date"    => $from_date, 
 	       "to_date"      => $to_date, 
 	       "total_amount" => $total,
 	       "filename"     => "$basename",
-	       "url"          => CRM_Utils_System::url("civicrm/file", "reset=1&id={$file->id}&eid=$contact_id"));
+	       "url"          => CRM_Utils_System::url("civicrm/file", "reset=1&id=$file_id&eid=$contact_id"));
 }	
 
 /**
