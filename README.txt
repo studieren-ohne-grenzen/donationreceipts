@@ -52,6 +52,10 @@ allen anderen Faellen -- zum Beispiel bei "Spenden" -- hingegen als
 Falls Zuwendungsarten konfiguriert sind, die mit dieser Heuristik nicht richtig
 zugeordnet werden, muessen diese entsprechend umbenannt werden...
 
+Es werden nur Zuwendungsarten berücksichtigt, bei denen "Tax-deductible"
+gesetzt ist; für andere Zuwendungsarten werden grundsätzlich keine
+Spendenbescheinigungen erzeugt.
+
 Die Verwaltung von Zuwendungsarten erfolgt unter:
 
    Administration->CiviContribute->Contribution Types

@@ -211,6 +211,7 @@ function generate_receipts($params)
               WHERE p.is_deleted = 0
                 AND docs.id IS NULL
                 AND c.receive_date BETWEEN '$from_date' AND '$to_date'
+                AND c.contribution_type_id IN (SELECT id FROM civicrm_contribution_type WHERE is_deductible)
                $and_contact_ids
            ORDER BY c.contact_id
                   , c.receive_date
