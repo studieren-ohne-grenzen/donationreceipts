@@ -19,6 +19,10 @@
 {if !$have_result}
 Keine Bescheinigungen fuer diesen Zeitraum ({$from_date} - {$to_date})<br/>oder Bescheinigungen wurden bereits erstellt
 {else}
-{* This template is *not* invoked if PDF creation was successful... *}
+{  if $url}
+<p>Jahresbescheinigungen fuer {$year} erstellt</p>
+<p><a href='{$url}'>Sammeldatei herunterladen</a></p>
+{  else}
 PDF creation failed
+{  /if}
 {/if}

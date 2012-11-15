@@ -57,37 +57,35 @@ class CRM_Donationreceipts_Page_Jahresbescheinigungen extends CRM_Core_Page {
       $this->assign("have_result", false);
       $this->assign("from_date", $from_date);
       $this->assign("to_date", $to_date);
-      parent::run();
     } else {
       $this->assign("have_result", true);
 
       // $result is already sorted by contact_id
       $docs = array_flip(array_map(function ($elem) { return $elem['filename']; }, $result));
 
-      $tmp_name = tempnam("/tmp", "civicrm");
-
       $config =& CRM_Core_Config::singleton( );
 
-      $cmd = "cd " . $config->customFileUploadDir . "; pdftk " . join(" ", array_keys($docs)) . " cat output $tmp_name";
+      // set up file names
+      $basename = CRM_Utils_File::makeFileName("Jahresbescheinigungen-$year.pdf");
+      $outfile = $config->customFileUploadDir . "$basename";
+
+      $cmd = "cd " . $config->customFileUploadDir . "; pdftk " . join(" ", array_keys($docs)) . " cat output $outfile";
 
       system($cmd);
 
-      if (file_exists($tmp_name)) {
-        header("Content-type: application/pdf");
-        header("Content-Disposition: attachment; filename='jahresbescheinigungen-$year.pdf'");
-        header('Content-Transfer-Encoding: binary');
-        header('Accept-Ranges: bytes');
+      if (file_exists($outfile)) {
+        $session = CRM_Core_Session::singleton();
+        $user = $session->get('userID');
 
-        header('Cache-Control: private');
-        header('Pragma: private');
-        header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+        $file_id = saveDocument($user, $basename, "application/pdf", "Jahresbescheinigungen", date("Y-m-d"), $from_date, $to_date, "Sammeldatei Jahresbescheinigungen $year");
 
-        echo file_get_contents($tmp_name);
-        unlink($tmp_name);
+        $this->assign("url", CRM_Utils_System::url("civicrm/file", "reset=1&id=$file_id&eid=$user"));
+        $this->assign("year", $year);
       } else {
-        parent::run();    /* Generate error page... */
+        $this->assign("url", '');
       }
     }    /* !empty($result) */
 
+    parent::run();
   }
 }

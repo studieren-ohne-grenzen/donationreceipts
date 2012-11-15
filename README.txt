@@ -136,23 +136,22 @@ von der genauen Ausstattung des Webservers ab, der
 Schätzwert von einer Bescheinigung pro Sekunde hilft
 aber die ungefähre Dauer des gesamten Laufes abzuschätzen).
 
-Die erstellten Bescheinigungen werden dabei direkt bei
-dem jeweiligen Kontakt hinterlegt und am Ende des Vorgangs
-gesammelt als ein kombiniertes PDF-Dokument übertragen.
-Innerhalb dieses Dokumentes sind die einzelnen Bescheinigungen
+Die erstellten Bescheinigungen werden dabei direkt bei den jeweiligen Kontakten
+hinterlegt, genauso wie bei einzeln generierten Bescheinigungen. Zusätzlich
+wird am Ende des Vorgangs eine Sammeldatei erzeugt, das alle beim Batchlauf
+erzeugten Jahresbescheinigungen in einem großen PDF-Dokument zusammenfasst.
+Diese Sammeldatei wird dann zum Download angeboten. Außerdem wird die
+Sammeldatei als spezielle Bescheinigung bei dem Nutzer hinterlegt, der die
+Erzeugung der Jahresbescheinigungen ausgelöst hat.
+
+(Sollte die Erstellung der PDFs zu lange dauern, und der Browser mit einem
+Timeout abbrechen, wird die Sammeldatei trotzdem bei dem Nutzer hinterlegt,
+sobald sie fertig generiert ist; und kann dann von dort heruntergeladen
+werden.)
+
+Innerhalb des Sammeldokuments sind die einzelnen Bescheinigungen
 nach der CiviCRM-ID der jeweiligen Kontakte sortiert. Da diese
 Sortierung garantiert zuverlässig ist, können die so gedruckten
 Bescheinigungen beispielsweise bei einem Lettershop automatisch
 mit ebenfalls aus CiviCRM exportierten Adressdaten zusammengeführt
 werden.
-
-Sollte die Erstellung der PDFs zu lange dauern und der
-Browser mit einem Timeout abbrechen so kann zZ. das 
-PDF-Dokument mit den gesammelten und sortierten Bescheinigungen
-nach Abschluß der Generierung im /tmp Ordner gefunden werden.
-Der Dateiname wird dabei (aus Sicherheitsgründen) zufällig
-gewählt.
-
-In Zukunft möchte ich versuchen die erzeugte Sammeldatei statt
-dessen bei den Bescheinigungen des aufrufenden Benutzers 
-abzulegen, bin aber noch nicht so weit gekommen ...
