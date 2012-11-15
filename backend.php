@@ -46,6 +46,7 @@ function get_custom_fields_meta()
       'html_type' => 'Select Date',
       'weight' => '3',
       'is_active' => '1',
+      'time_format' => '2',
     ),
     'field_from' => array(
       'name' => 'sfe_donationreceipts_timespan_from',
@@ -54,6 +55,7 @@ function get_custom_fields_meta()
       'html_type' => 'Select Date',
       'weight' => '4',
       'is_active' => '1',
+      'time_format' => '0',    /* Work around API bug: "time_format" doesn't return to default automatically) */
     ),
     'field_to' => array(
       'name' => 'sfe_donationreceipts_timespan_to',
@@ -400,7 +402,7 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
   $dompdf->render();
   $status = file_put_contents($outfile, $dompdf->output(array("compress" => 0)));
 
-  $file_id = saveDocument($contact_id, $basename, "application/pdf", "Spendenbescheinigung", date("Y-m-d"), $from_date, $to_date, $comment);
+  $file_id = saveDocument($contact_id, $basename, "application/pdf", "Spendenbescheinigung", date("Y-m-d h:i:s"), $from_date, $to_date, $comment);
 
   // return summary data and CiviCRM URL to generated file
   return array("contact_id"   => $contact_id, 

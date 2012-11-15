@@ -77,7 +77,7 @@ class CRM_Donationreceipts_Page_Jahresbescheinigungen extends CRM_Core_Page {
         $session = CRM_Core_Session::singleton();
         $user = $session->get('userID');
 
-        $file_id = saveDocument($user, $basename, "application/pdf", "Jahresbescheinigungen", date("Y-m-d"), $from_date, $to_date, "Sammeldatei Jahresbescheinigungen $year");
+        $file_id = saveDocument($user, $basename, "application/pdf", "Jahresbescheinigungen", date("Y-m-d h:i:s"), $from_date, $to_date, "Sammeldatei Jahresbescheinigungen $year");
 
         $this->assign("url", CRM_Utils_System::url("civicrm/file", "reset=1&id=$file_id&eid=$user"));
         $this->assign("year", $year);
