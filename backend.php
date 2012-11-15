@@ -403,7 +403,7 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
 	       "to_date"      => $to_date, 
 	       "total_amount" => $total,
 	       "filename"     => "$basename",
-	       "url"          => $config->userFrameworkBaseURL."/index.php?q=civicrm/file&reset=1&id=".$file->id."&eid=$contact_id");
+	       "url"          => CRM_Utils_System::url("civicrm/file", "reset=1&id={$file->id}&eid=$contact_id"));
 }	
 
 /**
