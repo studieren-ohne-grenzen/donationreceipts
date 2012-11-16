@@ -93,9 +93,10 @@ erscheint *immer* an dieser Stelle -- und er erscheint gar nicht, falls
 
 === Einzelbescheinigung unterjährig ===
 
-In der Kontaktansicht wird automatisch ein neuer Reiter "Bescheinigungen erstellen" 
-eingefügt, über diesen kann die Erstellung einer Bescheinigung
-für den aktuellen Kontakt angestoßen werden. Der erfasste 
+Die bei der Installation angelegte Feldgruppe "Bescheinigungen" erscheint in
+der Kontaktansicht als zusätzlicher Reiter. Dort können bereits erstellte
+Bescheinigungen für diesen Kontakt eingesehen werden; und dort kann auch die
+Erstellung einer Bescheinigung angestoßen werden. Der erfasste
 Bescheinigungszeitraum reicht dabei vom Enddatum der letzten
 erstellten Bescheinigung bzw. vom Jahresanfang (der spätere
 Wert von beiden gewinnt) bis zum aktuellen Datum.

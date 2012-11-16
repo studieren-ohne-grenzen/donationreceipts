@@ -91,14 +91,21 @@ function donationreceipts_civicrm_managed(&$entities) {
 }
 
 
-function donationreceipts_civicrm_tabs( &$tabs, $contactID ) {
-    require_once "config.php";
+function donationreceipts_civicrm_alterContent(&$content, $context, $tplName, &$object) {
+  if ($tplName == 'CRM/Contact/Page/View/CustomData.tpl') {
+    $result = civicrm_api("CustomGroup", "get", array('version' => '3', 'name' => CUSTOM_TABLE_NAME));
+    if ($object->_groupId == $result['id']) {
+      $bescheinigungen = array();
+      for ($year = date("Y") - 1; $year <= date("Y"); $year++) {
+        $url = CRM_Utils_System::url("civicrm/donationreceipts/zuwendungsbescheinigung", "snippet=1&contact_id={$object->_contactId}&year=$year");
+        $bescheinigungen[$url] = "$year&nbsp;&nbsp;";
+      }
 
-    $tabs[] = array( 'id'    => 'foebudTab',
-                     'url'   => CRM_Utils_System::url("civicrm/donationreceipts/contact-tab", "snippet=1&contact_id=$contactID"),
-                     'title' => FOEBUD_MENU_NAME,
-                     'weight' => 300
-                     );
+      $template = CRM_Core_Smarty::singleton();
+      $template->assign("bescheinigungen", $bescheinigungen);
+      $content = $template->fetch("CRM/Donationreceipts/Page/ContactTab.tpl") . "<hr />" . $content;
+    }
+  }
 }
 
 function donationreceipts_civicrm_navigationMenu(&$menu) {
