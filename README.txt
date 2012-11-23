@@ -63,8 +63,17 @@ Die Verwaltung von Zuwendungsarten erfolgt unter:
 === Bescheinigungs-Templates ===
 
 Die Templates für Einzel- und Sammel-Zuwendungsbescheinigungen
-befinden sich im Ordner "templates" innerhalb der Extension,
-also beispielsweise "/var/www/civicrm-extensions/sfe.donationreceipts/templates/".
+werden bei der Installation der Extension als zusätzliche
+"System Workflow Messages" angelegt, unter der Bezeichnung
+"Donationreceipts - Einzelbescheinigung" beziehungsweise
+"Donationreceipts - Sammelbescheinigung". Sie können unter
+
+   Administer->Communications->Message Tempates->System Worflow Messages
+
+bearbeitet werden.
+
+Von den Templates wird jeweils nur die HTML-Variante verwendet -- die
+Text-Varianten sollten leer gelassen werden.
 
 Beide Vorlagen sind als einfache HTML-Vorlagen angelegt und
 werden durch den in CiviCRM enthaltenen HTML->PDF Konverter

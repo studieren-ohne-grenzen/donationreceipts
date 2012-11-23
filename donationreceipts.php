@@ -43,6 +43,7 @@ function donationreceipts_civicrm_xmlMenu(&$files) {
  */
 function donationreceipts_civicrm_install() {
   setup_custom_data();
+  setup_templates();
   return _donationreceipts_civix_civicrm_install();
 }
 
