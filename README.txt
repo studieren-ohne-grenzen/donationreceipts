@@ -75,13 +75,13 @@ bearbeitet werden.
 Von den Templates wird jeweils nur die HTML-Variante verwendet -- die
 Text-Varianten sollten leer gelassen werden.
 
-Beide Vorlagen sind als einfache HTML-Vorlagen angelegt und
-werden durch den in CiviCRM enthaltenen HTML->PDF Konverter
-in PDF-Bescheinigungen umgewandelt nachdem die jeweils 
-passenden Werte eingetragen sind.
+Die HTML-Templates werden beim Erzeugen der Spendenbescheinigungen zunächst
+mit der Template-Engine "Smarty" verarbeitet, um die Werte der variablen Felder
+einzusetzen. Das Ergebnis wird dann in PDF-Dateien umgewandelt.
 
-Die Texte in diesen beiden Vorlagen müssen natürlich der
-jeweiligen Organisation angepasst werden. 
+Beim Erstellen von angepassten Templates für die eigene Organisation sollten
+die mitgelieferten Templates als Grundlage verwendet werden. Das Format der
+Platzhalter für die variablen Felder dürfte selbsterklärend sein.
 
 Der von CiviCRM genutzte HTML->PDF Konverter ist leider nicht
 besonders gut, bei der Verwendung unterschiedlicher Schriftgrößen

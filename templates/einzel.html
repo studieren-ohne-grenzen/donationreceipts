@@ -18,6 +18,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style>
+{literal}
 body {
   font-family: Helvetica,sans-serif; 
   font-size:   9pt;
@@ -60,6 +61,7 @@ span.kursiv {
   font-size: 10pt;
 }
 
+{/literal}
 </style>
 </head>
 <body>
@@ -76,7 +78,7 @@ bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen.
 <td width="2%">&nbsp;</td>
 <td width="53%">
 <span class='small'>Name und Anschrift des Zuwendenden:</span><br/><br/>
-<div class='large'>@donor@</div>
+<div class='large'>{$donor}</div>
 </td>
 <td width="45%">
 <div style="border: thin solid black; padding: 1em;">
@@ -102,17 +104,17 @@ bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen.
 <tr align="center">
 <td width="33%">
 <span class='small'> Betrag der Zuwendung - in Ziffern -</span><br/>
-<b>@total@ Euro</b>
+<b>{$total} Euro</b>
 <br/>
 </td>
 <td width="34%">
 <span class='small'> - in Buchstaben -</span><br/>
-<b>@totaltext@ Euro</b>
+<b>{$totaltext} Euro</b>
 <br/>
 </td>
 <td width="33%">
 <span class='small'> Tag der Zuwendung</span><br/>
-<b>@date@</b>
+<b>{$date}</b>
 <br/>
 </td>
 </tr>
@@ -163,7 +165,7 @@ verwendet wird.
 <br/>
 <br/>
 <br/>
-...Ort..., den @today@
+...Ort..., den {$today}
 <br/>
 <br/>
 <div style='width: 100%; border: thin solid black'></div>

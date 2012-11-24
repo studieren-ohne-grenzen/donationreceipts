@@ -422,6 +422,8 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
   $from_ts = strtotime($from_date);
   $to_ts   = strtotime($to_date);
 
+  $template = CRM_Core_Smarty::singleton();
+
   // select and set up template type
   if (count($items) > 1) {
     // more than one payment -> "Sammelbescheinigung" with itemized list
@@ -438,11 +440,12 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
     $item_table.= "<tr align='right'><td colspan='2'></td><td><b>Summe: ".number_format($total,2,',','.')." Euro </td><td><b>".num_to_text($total)." Euro </b></td></tr>\n";
     $item_table.= "</table>\n";
     
-    $html = str_replace("@items@", $item_table, $html);
+    $template->assign("items", $item_table);
   } else {
     // one payment only -> "Einzelbescheinigung"
     $html = get_template('einzel');
-    $html = str_replace("@date@", date("d.m.Y",strtotime($items[0]["date"])), $html);
+    $template->assign("items", null);    /* When generating multiple receipts in a batch (Jahresbescheinigungen), the smarty object is reused between the individual receipts (singleton) -- so need to reset this explicitly! */
+    $template->assign("date", date("d.m.Y",strtotime($items[0]["date"])));
   }
 
   // fill further template fields
@@ -451,18 +454,20 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
   } else {
     $daterange = date("j.n.",$from_ts) . " bis " . date("j.n.Y",$to_ts);
   }
-  $html = str_replace("@daterange@", $daterange, $html);
-  $html = str_replace("@donor@", $address['name']."<br/>".$address["street_address"]."<br/>".$address["postal_code"]." ".$address["city"], $html);
-  $html = str_replace("@total@", number_format($total,2,',','.'), $html);
-  $html = str_replace("@totaltext@", num_to_text($total), $html);
+  $template->assign("daterange", $daterange);
+  $template->assign("donor", $address['name']."<br/>".$address["street_address"]."<br/>".$address["postal_code"]." ".$address["city"]);
+  $template->assign("total", number_format($total,2,',','.'));
+  $template->assign("totaltext", num_to_text($total));
 
-  $html = str_replace("@today@", date("j.n.Y", time()), $html);
+  $template->assign("today", date("j.n.Y", time()));
 
   if (date("m-d",$from_ts) == "01-01" && date("m-d",$to_ts) == "12-31") {
     $rangespec = date("Y",$from_ts);
   } else {
     $rangespec = date("Y-m-d",$from_ts) . "_" . date("m-d",$to_ts);
   }
+
+  $html = $template->fetch("string:$html");
 
   // set up file names
   $basename = CRM_Utils_File::makeFileName("Zuwendungen_".$rangespec."_".$contact_id.".pdf");

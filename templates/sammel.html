@@ -18,6 +18,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <style>
+{literal}
 body {
   font-family: Helvetica,sans-serif; 
   font-size:   9pt;
@@ -60,11 +61,12 @@ span.kursiv {
   font-size: 10pt;
 }
 
+{/literal}
 </style>
 </head>
 <body>
 
-<div class='dick'><b>Sammelbestätigung über Geldzuwendungen / Mitgliedsbeitrag @daterange@</b></div>
+<div class='dick'><b>Sammelbestätigung über Geldzuwendungen / Mitgliedsbeitrag {$daterange}</b></div>
 <br/>
 <br/>
 <div class='mittel'>im Sinne des § 10b des Einkommensteuergesetzes an eine der in § 5 Abs. 1 Nr. 9 des Körperschaftssteuergesetzes<br/>
@@ -76,7 +78,7 @@ bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen.
 <td width="2%">&nbsp;</td>
 <td width="53%">
 <span class='small'>Name und Anschrift des Zuwendenden:</span><br/><br/>
-<div class='large'>@donor@</div>
+<div class='large'>{$donor}</div>
 </td>
 <td width="45%">
 <div style="border: thin solid black; padding: 1em;">
@@ -102,12 +104,12 @@ bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen.
 <tr align="center">
 <td width="33%">
 <span class='small'> Betrag der Zuwendung - in Ziffern -</span><br/>
-<b>@total@ Euro</b>
+<b>{$total} Euro</b>
 <br/>
 </td>
 <td width="34%">
 <span class='small'> - in Buchstaben -</span><br/>
-<b>@totaltext@ Euro</b>
+<b>{$totaltext} Euro</b>
 <br/>
 </td>
 <td width="33%">
@@ -164,7 +166,7 @@ ausgestellt wurden und werden.
 <br/>
 <br/>
 <br/>
-...Ort..., den @today@
+...Ort..., den {$today}
 <br/>
 <br/>
 <div style='width: 100%; border: thin solid black'></div>
@@ -195,10 +197,10 @@ Unseren aktuellen Freistellungsbescheid finden Sie unter ...Url...
 
 <div style='page-break-before: always'>
 <br/><br/>
-Anlage zur Sammelbestätigung vom @today@
+Anlage zur Sammelbestätigung vom {$today}
 </div>
 
-@items@
+{$items}
 
 
 </body>
