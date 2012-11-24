@@ -200,7 +200,13 @@ Unseren aktuellen Freistellungsbescheid finden Sie unter ...Url...
 Anlage zur Sammelbestätigung vom {$today}
 </div>
 
-{$items}
+<table class='grid'>
+  <tr><th>Datum</th><th>Art der Zuwendung</th><th>Betrag der Zuwendung - in Ziffern -</th><th>- in Buchstaben -</th></tr>
+  {foreach from=$items item=item}
+    <tr align='right'><td>{$item.date} </td><td>{$item.art}</td><td>{$item.amount} Euro  </td><td>{$item.amounttext} Euro </td></tr>
+  {/foreach}
+  <tr align='right'><td colspan='2'></td><td><b>Summe: {$total} Euro </td><td><b>{$totaltext} Euro </b></td></tr>
+</table>
 
 
 </body>

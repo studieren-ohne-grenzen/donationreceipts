@@ -429,17 +429,15 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
     // more than one payment -> "Sammelbescheinigung" with itemized list
     $html = get_template('sammel');
 
-    $item_table = "<table class='grid'>\n";
-    $item_table.= "<tr><th>Datum</th><th>Art der Zuwendung</th><th>Betrag der Zuwendung - in Ziffern -</th><th>- in Buchstaben -</th></tr>\n";
+    $item_table = array();
     foreach ($items as $item) {
-      $amount = number_format($item["amount"],2,',','.');
-      $date  = strtotime($item["date"]);
-      $art   = $item["art"];
-      $item_table.= "<tr align='right'><td>".date("j.n.Y", $date)." </td><td>$art</td><td>$amount Euro  </td><td>".num_to_text($item["amount"])." Euro </td></tr>\n";
+      $item_table[] = array(
+        'date' => date("j.n.Y", strtotime($item["date"])),
+        'art' => $item["art"],
+        'amount' => number_format($item["amount"],2,',','.'),
+        'amounttext' => num_to_text($item["amount"]),
+      );
     }
-    $item_table.= "<tr align='right'><td colspan='2'></td><td><b>Summe: ".number_format($total,2,',','.')." Euro </td><td><b>".num_to_text($total)." Euro </b></td></tr>\n";
-    $item_table.= "</table>\n";
-    
     $template->assign("items", $item_table);
   } else {
     // one payment only -> "Einzelbescheinigung"
