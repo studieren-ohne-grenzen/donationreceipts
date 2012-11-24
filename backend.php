@@ -453,7 +453,7 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
     $daterange = date("j.n.",$from_ts) . " bis " . date("j.n.Y",$to_ts);
   }
   $template->assign("daterange", $daterange);
-  $template->assign("donor", $address['name']."<br/>".$address["street_address"]."<br/>".$address["postal_code"]." ".$address["city"]);
+  $template->assign("donor", $address);
   $template->assign("total", number_format($total,2,',','.'));
   $template->assign("totaltext", num_to_text($total));
 
