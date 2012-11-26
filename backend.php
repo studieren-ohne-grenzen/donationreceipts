@@ -401,7 +401,6 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
 
   $docs = get_docs_table();
 
-  require_once("packages/dompdf/dompdf_config.inc.php");
   $config = CRM_Core_Config::singleton(true,true );
 
   // from date is the given date or the day following the last already
@@ -473,11 +472,7 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
   $outfile.= "/$basename";
 
   // render PDF receipt
-  $dompdf = new DOMPDF();
-  $dompdf->set_paper('a4');
-  $dompdf->load_html($html);
-  $dompdf->render();
-  $status = file_put_contents($outfile, $dompdf->output(array("compress" => 0)));
+  file_put_contents($outfile, CRM_Utils_PDF_Utils::html2pdf($html, null, true));
 
   $file_id = saveDocument($contact_id, $basename, "application/pdf", "Spendenbescheinigung", date("Y-m-d h:i:s"), $from_date, $to_date, $comment);
 
