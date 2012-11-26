@@ -31,8 +31,6 @@ class CRM_Donationreceipts_Page_Jahresbescheinigungen extends CRM_Core_Page {
 
     $year = @$_GET["year"];
 
-    if (!$year) $year = date("Y") - 1; // Vorjahr
-
     $from_date = "$year-01-01 00:00:00";
 
     if ($year == date("Y")) {
