@@ -70,7 +70,8 @@ werden bei der Installation der Extension als zusätzliche
 
    Administer->Communications->Message Tempates->System Worflow Messages
 
-bearbeitet werden.
+bearbeitet werden. Neben den Template-Inhalten können hier auch die
+gewünschten Papierformate eingestellt werden.
 
 Von den Templates wird jeweils nur die HTML-Variante verwendet -- die
 Text-Varianten sollten leer gelassen werden.

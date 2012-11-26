@@ -206,7 +206,11 @@ function setup_templates()
   }    /* if !$existing */
 }    /* setup_templates() */
 
-/* Retrieve the requested template ('donationreceipt_einzel' or 'donationreceipt_sammel') from DB. */
+/*
+ * Retrieve the requested template ('donationreceipt_einzel' or 'donationreceipt_sammel') from DB.
+ *
+ * Returns the HTML part of the template (for PDF generation), as well as the PDF format associated with the template.
+ */
 function get_template($type)
 {
   $result = civicrm_api(
@@ -228,7 +232,7 @@ function get_template($type)
   $params = array('workflow_id' => $workflow_id);
   $template = CRM_Core_BAO_MessageTemplates::retrieve($params, $_);
 
-  return $template->msg_html;
+  return array($template->msg_html, $template->pdf_format_id);
 }
 
 function saveDocument($contact_id, $filename, $mimetype, $filetype, $date, $date_from, $date_to, $comment)
@@ -426,7 +430,7 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
   // select and set up template type
   if (count($items) > 1) {
     // more than one payment -> "Sammelbescheinigung" with itemized list
-    $html = get_template('sammel');
+    list($html, $page_format) = get_template('sammel');
 
     $item_table = array();
     foreach ($items as $item) {
@@ -440,7 +444,7 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
     $template->assign("items", $item_table);
   } else {
     // one payment only -> "Einzelbescheinigung"
-    $html = get_template('einzel');
+    list($html, $page_format) = get_template('einzel');
     $template->assign("items", null);    /* When generating multiple receipts in a batch (Jahresbescheinigungen), the smarty object is reused between the individual receipts (singleton) -- so need to reset this explicitly! */
     $template->assign("date", date("d.m.Y",strtotime($items[0]["date"])));
   }
@@ -472,7 +476,7 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
   $outfile.= "/$basename";
 
   // render PDF receipt
-  file_put_contents($outfile, CRM_Utils_PDF_Utils::html2pdf($html, null, true));
+  file_put_contents($outfile, CRM_Utils_PDF_Utils::html2pdf($html, null, true, $page_format));
 
   $file_id = saveDocument($contact_id, $basename, "application/pdf", "Spendenbescheinigung", date("Y-m-d h:i:s"), $from_date, $to_date, $comment);
 
