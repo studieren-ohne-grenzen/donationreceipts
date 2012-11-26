@@ -293,8 +293,6 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
   $docs = get_docs_table();
 
   require_once("packages/dompdf/dompdf_config.inc.php");
-  require_once("CRM/Core/DAO/File.php");
-  require_once("CRM/Core/DAO/EntityFile.php");
   $config = CRM_Core_Config::singleton(true,true );
 
   // from date is the given date or the day following the last already
