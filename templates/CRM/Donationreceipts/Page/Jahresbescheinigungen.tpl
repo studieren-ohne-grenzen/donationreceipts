@@ -1,6 +1,6 @@
 {*
     sfe.donationreceipts extension for CiviCRM
-    Copyright (C) 2011,2012 FoeBuD e.V.
+    Copyright (C) 2011,2012 digitalcourage e.V.
     Copyright (C) 2012 Software fuer Engagierte e.V.
 
     This program is free software: you can redistribute it and/or modify
