@@ -1,5 +1,5 @@
 <!--
-    Donation receipt templates for CiviCRM donationreceipts extension.
+    Donation receipt template for CiviCRM donationreceipts extension.
 
     Created in 2011 by digitalcourage e.V. in Germany, based on the official
     forms published by the tax administration; reworked in 2012 by Software
@@ -7,8 +7,8 @@
 
     To the extent possible under law, digitalcourage e.V. and Software fuer
     Engagierte e.V. have dedicated all copyright and related and neighboring
-    rights to these template files to the public domain worldwide. These
-    templates are distributed without any warranty.
+    rights to this template file to the public domain worldwide. This template
+    is distributed without any warranty.
 
     You should have received a copy of the CC0 Public Domain Dedication along
     with these files. If not, see
@@ -23,7 +23,7 @@ body {
 
 .bottom {
   position: absolute;
-  bottom: 0
+  bottom: 0;
 }
 
 table.grid {
@@ -64,7 +64,7 @@ span.kursiv {
 {/literal}
 </style>
 
-<div class='dick'><b>Bestätigung über Geldzuwendungen / Mitgliedsbeitrag</b></div>
+<div class='dick'><b>{if $items}Sammelbestätigung{else}Bestätigung{/if} über Geldzuwendungen / Mitgliedsbeitrag{if $items} {$daterange}{/if}</b></div>
 <br/>
 <br/>
 <div class='mittel'>im Sinne des § 10b des Einkommensteuergesetzes an eine der in § 5 Abs. 1 Nr. 9 des Körperschaftssteuergesetzes<br/>
@@ -112,7 +112,7 @@ bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen.
 </td>
 <td width="33%">
 <span class='small'> Tag der Zuwendung</span><br/>
-<b>{$date}</b>
+<b>{if $items}Siehe Rückseite{else}{$date}{/if}</b>
 <br/>
 </td>
 </tr>
@@ -151,7 +151,12 @@ Es wird bestätigt, dass die Zuwendung nur zur Förderung (Angabe des begünstig
 nämlich: ...Zweck...
 verwendet wird.
 <br/>
-
+{if $items}
+Es wird bestätigt, dass über die in der Gesamtsumme enthaltenen Zuwendungen keine weiteren 
+Bestätigungen, weder formelle Zuwendungsbestätigungen noch Beitragsquittungen o.ä., 
+ausgestellt wurden und werden.
+<br/>
+{/if}
 </div>
 
 <div class='bottom'>
@@ -189,4 +194,15 @@ Unseren aktuellen Freistellungsbescheid finden Sie unter ...Url...
 
 <div style='page-break-before: always'>
 <br/><br/>
+{if $items}
+Anlage zur Sammelbestätigung vom {$today}
+
+<table class='grid'>
+  <tr><th>Datum</th><th>Art der Zuwendung</th><th>Betrag der Zuwendung - in Ziffern -</th><th>- in Buchstaben -</th></tr>
+  {foreach from=$items item=item}
+    <tr align='right'><td>{$item.date} </td><td>{$item.art}</td><td>{$item.amount} Euro  </td><td>{$item.amounttext} Euro </td></tr>
+  {/foreach}
+  <tr align='right'><td colspan='2'></td><td><b>Summe: {$total} Euro </td><td><b>{$totaltext} Euro </b></td></tr>
+</table>
+{/if}
 </div>

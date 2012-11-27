@@ -156,8 +156,8 @@ function get_docs_table()
 
 define('OPTION_GROUP_NAME', 'msg_tpl_workflow_donationreiceipts');
 
-/* Create receipt templates (along with matching custom values and a custom group), unless the group already exists. */
-function setup_templates()
+/* Create receipt template (along with matching custom values and a custom group), unless the group already exists. */
+function setup_template()
 {
   $existing = civicrm_api('OptionGroup', 'get', array('version' => 3, 'name' => OPTION_GROUP_NAME));
   if (!$existing['count']) {
@@ -173,12 +173,8 @@ function setup_templates()
         'is_active' => 1,
         'api.OptionValue.create' => array(    /* Chained API call, using option_group_id created by outer call. */
           array(
-            'name' => 'donationreceipt_einzel',
-            'label' => 'Einzelbescheinigung',
-          ),
-          array(
-            'name' => 'donationreceipt_sammel',
-            'label' => 'Sammelbescheinigung',
+            'name' => 'donationreceipt',
+            'label' => 'Zuwendungsbescheinigung',
           ),
         )
       )
@@ -187,31 +183,29 @@ function setup_templates()
       throw new Exception($new['error_message']);
 
     /* There is no API yet for adding message templates, so need to do it "by hand" through BAO. */
-    foreach ($new['values'][$new['id']]['api.OptionValue.create'] as $new_value) {
-      /* For each template, create an editable entry, as well as a reserved one for the "Revert to Default" functionality. */
-      foreach (array(false, true) as $reserved) {
-        $file_name = preg_replace('/donationreceipt_(.*)/', '$1.html', $new_value['values'][0]['name']);    /* einzel.html or sammel.html */
-        $params = array(
-          'msg_title' => "Donationreceipts - {$new_value['values'][0]['label']}",
-          'msg_html' => file_get_contents(__DIR__ . "/templates/$file_name"),
-          'is_active' => 1,
-          'workflow_id' => $new_value['id'],
-          'is_default' => !$reserved,    /* The editable (non-reserved) entry is the one actually used/visible in the application. */
-          'is_reserved' => $reserved,
-        );
-        CRM_Core_BAO_MessageTemplates::add($params);
-      }
+    $new_value = $new['values'][$new['id']]['api.OptionValue.create'][0];
+    /* Create an editable entry, as well as a reserved one for the "Revert to Default" functionality. */
+    foreach (array(false, true) as $reserved) {
+      $params = array(
+        'msg_title' => "Donationreceipts - {$new_value['values'][0]['label']}",
+        'msg_html' => file_get_contents(__DIR__ . '/templates/receipt.html'),
+        'is_active' => 1,
+        'workflow_id' => $new_value['id'],
+        'is_default' => !$reserved,    /* The editable (non-reserved) entry is the one actually used/visible in the application. */
+        'is_reserved' => $reserved,
+      );
+      CRM_Core_BAO_MessageTemplates::add($params);
     }
 
   }    /* if !$existing */
 }    /* setup_templates() */
 
 /*
- * Retrieve the requested template ('donationreceipt_einzel' or 'donationreceipt_sammel') from DB.
+ * Retrieve the receipt template from DB.
  *
  * Returns the HTML part of the template (for PDF generation), as well as the PDF format associated with the template.
  */
-function get_template($type)
+function get_template()
 {
   $result = civicrm_api(
     'OptionGroup',
@@ -220,12 +214,12 @@ function get_template($type)
       'version' => 3,
       'name' => OPTION_GROUP_NAME,
       'api.OptionValue.get' => array(    /* Chained API call, using option_group_id retrieved by outer call. */
-        'name' => "donationreceipt_$type",
+        'name' => 'donationreceipt',
       )
     )
   );
   if (!$result['count'])
-    die("Template 'donationreceipt_$type' nicht gefunden");
+    die("Template 'donationreceipt' nicht gefunden");
 
   $workflow_id = $result['values'][$result['id']]['api.OptionValue.get']['id'];
 
@@ -427,11 +421,11 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
 
   $template = CRM_Core_Smarty::singleton();
 
+  list($html, $page_format) = get_template();
+
   // select and set up template type
   if (count($items) > 1) {
     // more than one payment -> "Sammelbescheinigung" with itemized list
-    list($html, $page_format) = get_template('sammel');
-
     $item_table = array();
     foreach ($items as $item) {
       $item_table[] = array(
@@ -444,7 +438,6 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
     $template->assign("items", $item_table);
   } else {
     // one payment only -> "Einzelbescheinigung"
-    list($html, $page_format) = get_template('einzel');
     $template->assign("items", null);    /* When generating multiple receipts in a batch (Jahresbescheinigungen), the smarty object is reused between the individual receipts (singleton) -- so need to reset this explicitly! */
     $template->assign("date", date("d.m.Y",strtotime($items[0]["date"])));
   }

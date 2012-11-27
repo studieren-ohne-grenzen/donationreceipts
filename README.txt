@@ -62,26 +62,24 @@ Die Verwaltung von Zuwendungsarten erfolgt unter:
 
 === Bescheinigungs-Templates ===
 
-Die Templates für Einzel- und Sammel-Zuwendungsbescheinigungen
-werden bei der Installation der Extension als zusätzliche
-"System Workflow Messages" angelegt, unter der Bezeichnung
-"Donationreceipts - Einzelbescheinigung" beziehungsweise
-"Donationreceipts - Sammelbescheinigung". Sie können unter
+Das Template für Zuwendungsbescheinigungen wird bei der Installation der
+Extension als zusätzliche "System Workflow Message" angelegt, unter der
+Bezeichnung "Donationreceipts - Zuwendungsbescheinigung". Es kann unter
 
    Administer->Communications->Message Tempates->System Worflow Messages
 
-bearbeitet werden. Neben den Template-Inhalten können hier auch die
-gewünschten Papierformate eingestellt werden.
+bearbeitet werden. Neben dem Template-Inhalt können hier auch die gewünschten
+Papierformate eingestellt werden.
 
-Von den Templates wird jeweils nur die HTML-Variante verwendet -- die
-Text-Varianten sollten leer gelassen werden.
+Von dem Template wird nur die HTML-Variante verwendet -- die Text-Variante
+sollte leer gelassen werden.
 
-Die HTML-Templates werden beim Erzeugen der Spendenbescheinigungen zunächst
-mit der Template-Engine "Smarty" verarbeitet, um die Werte der variablen Felder
+Das HTML-Template wird beim Erzeugen der Spendenbescheinigungen zunächst mit
+der Template-Engine "Smarty" verarbeitet, um die Werte der variablen Felder
 einzusetzen. Das Ergebnis wird dann in PDF-Dateien umgewandelt.
 
-Beim Erstellen von angepassten Templates für die eigene Organisation sollten
-die mitgelieferten Templates als Grundlage verwendet werden. Das Format der
+Beim Erstellen eines angepassten Templates für die eigene Organisation sollte
+das mitgelieferte Template als Grundlage verwendet werden. Das Format der
 Platzhalter für die variablen Felder dürfte selbsterklärend sein.
 
 Der von CiviCRM genutzte HTML->PDF Konverter ist leider nicht
