@@ -23,6 +23,15 @@ body {
   font-size: 9pt;
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+td, th {
+  border: thin solid;
+}
+
 
 h1 {
   margin-top: 0;
@@ -37,8 +46,6 @@ h1 {
 
 #parties {
   margin-top: 4em;
-  width: 100%;
-  border-collapse: collapse;
 }
 
 #parties th {
@@ -64,7 +71,6 @@ h1 {
 
 #parties .issuer {
   width: 45%;
-  border: thin solid;
 }
 
 #parties th.issuer {
@@ -87,14 +93,11 @@ ul.address li {
 
 #amounts {
   margin-top: 8em;
-  width: 100%;
   table-layout: fixed;    /* Doesn't actually work in dompdf... Need to explicitly set widths for each column if it's important :-( */
-  border-collapse: collapse;
 }
 
 #amounts th, #amounts td {
   padding: 3pt;
-  border: thin solid;
   text-align: center;
 }
 
@@ -193,12 +196,9 @@ h2 {
 
 
 #listing {
-  width: 100%;
-  border-collapse: collapse;
 }
 
 #listing th, #listing td {
-  border: thin solid;
   padding: 2pt;
 }
 
