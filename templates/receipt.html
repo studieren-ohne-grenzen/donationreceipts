@@ -32,6 +32,19 @@ td, th {
   border: thin solid;
 }
 
+/* Tables with headers appearing merged into content cells. */
+
+table.merged th {
+  vertical-align: bottom;
+  border-bottom: none;
+  padding-bottom: 0 !important;
+}
+
+table.merged td {
+  vertical-align: top;
+  border-top: none;
+}
+
 
 h1 {
   margin-top: 0;
@@ -50,15 +63,12 @@ h1 {
 
 #parties th {
   text-align: left;
-  vertical-align: bottom;
   font-size: 6pt;
   font-weight: normal;
   padding: 9pt;
-  padding-bottom: 0;
 }
 
 #parties td {
-  vertical-align: top;
   font-size: 12pt;
   padding: 9pt;
 }
@@ -71,14 +81,6 @@ h1 {
 
 #parties .issuer {
   width: 45%;
-}
-
-#parties th.issuer {
-  border-bottom: none;
-}
-
-#parties td.issuer {
-  border-top: none;
 }
 
 ul.address {
@@ -102,17 +104,12 @@ ul.address li {
 }
 
 #amounts th {
-  vertical-align: bottom;
   font-size: 6pt;
   font-weight: normal;
-  border-bottom: none;
-  padding-bottom: 0;
 }
 
 #amounts td {
-  vertical-align: top;
   font-weight: bold;
-  border-top: none;
   padding-top: 0;
 }
 
@@ -217,7 +214,7 @@ h2 {
 
 <p class='subtitle'>im Sinne des § 10b des Einkommensteuergesetzes an eine der in § 5 Abs. 1 Nr. 9 des Körperschaftssteuergesetzes bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen.</p>
 
-<table id='parties'>
+<table id='parties' class='merged'>
   <tr>
     <th class='donor'>Name und Anschrift des Zuwendenden:</th>
     <th class='issuer'>Aussteller: (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung)</th>
@@ -240,7 +237,7 @@ h2 {
   </tr>
 </table>    <!-- parties -->
 
-<table id='amounts'>
+<table id='amounts' class='merged'>
   <tr>
     <th>Betrag der Zuwendung - in Ziffern -</th>
     <th>- in Buchstaben -</th>
