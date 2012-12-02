@@ -99,7 +99,7 @@ function setup_custom_data()
       )
     );
     if (civicrm_error($new))
-      throw new Exception($new['error_message']);
+      CRM_Core_Error::fatal("Benutzerdefinierte Gruppe und Felder konnten nicht angelegt werden: {$new['error_message']}");
 
     /* Ugly ugly workaround for broken API always setting 'name' same as 'label'... */
     foreach ($new['values'][$new['id']]['api.CustomField.create'] as $result) {
@@ -135,7 +135,7 @@ function get_docs_table()
   );
 
   if (!$result['count'])
-    die('Benuterdefinierte Feldgruppe "'.CUSTOM_TABLE_NAME.'" nicht gefunden.');
+    CRM_Core_Error::fatal('Benuterdefinierte Feldgruppe "'.CUSTOM_TABLE_NAME.'" nicht gefunden.');
 
   $result_group = $result['values'][$result['id']];
 
@@ -149,7 +149,7 @@ function get_docs_table()
 
   $missing = array_diff_key($field_mappings, $docs);
   if ($missing)
-    die('Benutzerdefiniertes Feldgruppe "'.CUSTOM_TABLE_NAME.'" unvollstaendig: "' . implode('", "', $missing) . '" nicht gefunden.');
+    CRM_Core_Error::fatal('Benutzerdefiniertes Feldgruppe "'.CUSTOM_TABLE_NAME.'" unvollstaendig: "' . implode('", "', $missing) . '" nicht gefunden.');
 
   return $docs;
 }
@@ -180,7 +180,7 @@ function setup_template()
       )
     );
     if (civicrm_error($new))
-      throw new Exception($new['error_message']);
+      CRM_Core_Error::fatal("Optionsgruppe und -felder fuer Bescheinigungs-Template konnten nicht angelegt werden: {$new['error_message']}");
 
     /* There is no API yet for adding message templates, so need to do it "by hand" through BAO. */
     $new_value = $new['values'][$new['id']]['api.OptionValue.create'][0];
@@ -219,7 +219,7 @@ function get_template()
     )
   );
   if (!$result['count'])
-    die("Template 'donationreceipt' nicht gefunden");
+    CRM_Core_Error::fatal("Template 'donationreceipt' nicht gefunden");
 
   $workflow_id = $result['values'][$result['id']]['api.OptionValue.get']['id'];
 

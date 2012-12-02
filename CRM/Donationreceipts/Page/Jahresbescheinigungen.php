@@ -22,10 +22,8 @@ require_once 'CRM/Core/Page.php';
 
 class CRM_Donationreceipts_Page_Jahresbescheinigungen extends CRM_Core_Page {
   function run() {
-    if (!file_exists("/usr/bin/pdftk")) {
-      echo "'pdftk' nicht installiert, Erstellung des Sammel-PDF nicht moeglich";
-      exit;
-    }
+    if (!file_exists("/usr/bin/pdftk"))
+      CRM_Core_Error::fatal("'pdftk' nicht installiert, Erstellung des Sammel-PDF nicht moeglich");
 
     require_once 'backend.php';
 
