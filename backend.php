@@ -401,11 +401,12 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
 
   $config = CRM_Core_Config::singleton(true,true );
 
-  // from date is the given date or the day following the last already
-  // printed/confirmed date, whatever is later (no duplicate receipt items)
+  /* If receipts already exist for a date range overlapping the requested range, readjust the from date for the new receipt to follow the lastest date for which receipts were already generated. */
   $query = "SELECT GREATEST(MAX(DATE_ADD($docs[field_to], INTERVAL 1 DAY)), '$from_date' ) AS from_date
               FROM $docs[table]
-             WHERE entity_id = $contact_id";
+             WHERE entity_id = $contact_id
+               AND {$docs['field_from']} < '$to_date'    -- Ignore existing receipts for a date range beginning after the end of the requested range.
+           ";
 
   $from_ts = strtotime($from_date);
   $to_ts   = strtotime($to_date);
