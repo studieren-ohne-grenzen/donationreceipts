@@ -24,8 +24,8 @@ class CRM_Donationreceipts_Page_Zuwendungsbescheinigung extends CRM_Core_Page {
   function run() {
     require_once 'backend.php';
 
-    $year = $_GET["year"];
-    $contact_id = $_GET["cid"];
+    $year = CRM_Utils_Request::retrieve('year', 'Positive', $_ = null, true);
+    $contact_id = CRM_Utils_Request::retrieve('cid', 'Positive', $_ = null, true);
 
     $from_date = "$year-01-01 00:00:00";
 

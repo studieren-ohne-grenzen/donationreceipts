@@ -21,8 +21,7 @@ require_once 'CRM/Core/Page.php';
 
 class CRM_Donationreceipts_Page_JahresbescheinigungenConfirm extends CRM_Core_Page {
   function run() {
-    $year = @$_GET["year"];
-    if (!$year) $year = date("Y") - 1; // Vorjahr
+    $year = CRM_Utils_Request::retrieve('year', 'Positive', $_ = null, false, date("Y") - 1 /* last year */);
 
     CRM_Utils_System::setTitle("Jahresbescheinigungen $year");
 

@@ -27,7 +27,7 @@ class CRM_Donationreceipts_Page_Jahresbescheinigungen extends CRM_Core_Page {
 
     require_once 'backend.php';
 
-    $year = @$_GET["year"];
+    $year = CRM_Utils_Request::retrieve('year', 'Positive', $_ = null, true);
 
     $from_date = "$year-01-01 00:00:00";
 
