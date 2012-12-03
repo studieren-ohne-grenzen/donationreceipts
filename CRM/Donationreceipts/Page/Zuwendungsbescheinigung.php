@@ -44,10 +44,7 @@ class CRM_Donationreceipts_Page_Zuwendungsbescheinigung extends CRM_Core_Page {
 
     $result = generate_receipts($params);
 
-    if (empty($result)) {
-      $this->assign("have_result", false);
-    } else {
-      $this->assign("have_result", true);
+    if (!empty($result)) {
       $this->assign("from_date", date("j.n.", strtotime($result[$contact_id]['from_date'])));
       $this->assign("to_date", date("j.n.Y",strtotime($result[$contact_id]['to_date'])));
       $this->assign("url", $result[$contact_id]['url']);

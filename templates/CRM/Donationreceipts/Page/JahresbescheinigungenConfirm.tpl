@@ -16,10 +16,18 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *}
 
-<p><strong>Achtung: Es gibt derzeit keinen einfachen Weg, das Erzeugen der Jahresbescheinigungen fuer alle Kontakte rueckgaengig zu machen!</strong></p>
+<style>
+{literal}
+p {
+  margin: 1em;
+}
+{/literal}
+</style>
+
+<p><strong>Achtung: Es gibt derzeit keinen einfachen Weg, das Erzeugen der Jahresbescheinigungen für alle Kontakte rückgängig zu machen!</strong></p>
 
 <p><a href="{$confirm_url}">Jahresbescheinigungen {$year} erstellen</a></p>
 
-<p><strong>Hinweis:</strong> Das Erzeugen aller Jahresbescheinigungen kann sehr lange dauern. Der Browser sollte waehrend dieser Zeit anzeigen, dass er auf den Server wartet. Das ist <em>kein</em> Fehler -- bitte nicht versuchen, den Link erneut anzuklicken...</p>
+<p><strong>Hinweis:</strong> Das Erzeugen aller Jahresbescheinigungen kann sehr lange dauern. Der Browser sollte während dieser Zeit anzeigen, dass er auf den Server wartet. Das ist <em>kein</em> Fehler -- bitte nicht versuchen, den Link erneut anzuklicken...</p>
 
-<p>Sollte der Browser mit einem Timeout abbrechen, wird der Vorgang auf dem Server im Hintergrund fortgesetzt. Sobald alle Bescheinigungen erstellt sind, steht das fertige Sammeldokument bei den Bescheinigungen des ausloesenden Nutzers zur Verfuegung.</p>
+<p>Sollte der Browser mit einem Timeout abbrechen, wird der Vorgang auf dem Server im Hintergrund fortgesetzt. Sobald alle Bescheinigungen erstellt sind, steht das fertige Sammeldokument bei den Bescheinigungen des auslösenden Nutzers zur Verfügung.</p>

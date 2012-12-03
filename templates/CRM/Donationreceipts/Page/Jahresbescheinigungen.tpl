@@ -16,13 +16,19 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *}
+
+<style>
+{literal}
+p {
+  margin: 1em;
+}
+{/literal}
+</style>
+
 {if !$have_result}
-Keine Bescheinigungen fuer diesen Zeitraum ({$from_date} - {$to_date})<br/>oder Bescheinigungen wurden bereits erstellt
+<p><strong>Keine unbescheinigten Zuwendungen für diesen Zeitraum.</strong></p>
+<p>Jahresbescheinigungen vielleicht bereits erstellt?</p>
 {else}
-{  if $url}
-<p>Jahresbescheinigungen fuer {$year} erstellt</p>
+<p>Alle Jahresbescheinigungen erfolgreich erstellt.</p>
 <p><a href='{$url}'>Sammeldatei herunterladen</a></p>
-{  else}
-PDF creation failed
-{  /if}
 {/if}

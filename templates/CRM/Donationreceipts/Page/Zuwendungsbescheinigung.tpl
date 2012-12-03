@@ -16,13 +16,13 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *}
-{if !$have_result}
-<h1>Keine unbescheinigten Zuwendungen fuer diesen Zeitraum</h1>
-{else}
-Zuwendungsbescheinigung fuer den Zeitraum vom {$from_date}
- bis {$to_date} erstellt<br />
 
-<a href='{$url}'>Bescheinigung herunterladen</a>
+{if !$url}
+<strong>Keine unbescheinigten Zuwendungen für diesen Zeitraum.</strong>
+{else}
+<p>Zuwendungsbescheinigung für den Zeitraum vom {$from_date} bis {$to_date} erstellt.</p>
+
+<p><a href='{$url}'>Bescheinigung herunterladen</a></p>
 
 <script language='javascript'>window.opener.location.reload(true);</script>
 {/if}

@@ -29,6 +29,8 @@ class CRM_Donationreceipts_Page_Jahresbescheinigungen extends CRM_Core_Page {
 
     $year = CRM_Utils_Request::retrieve('year', 'Positive', $_ = null, true);
 
+    CRM_Utils_System::setTitle("Jahresbescheinigungen $year");
+
     $from_date = "$year-01-01 00:00:00";
 
     if ($year == date("Y")) {
@@ -49,11 +51,7 @@ class CRM_Donationreceipts_Page_Jahresbescheinigungen extends CRM_Core_Page {
 
     $result = generate_receipts($params);
 
-    if (empty($result)) {
-      $this->assign("have_result", false);
-      $this->assign("from_date", $from_date);
-      $this->assign("to_date", $to_date);
-    } else {
+    if (!empty($result)) {
       $this->assign("have_result", true);
 
       // $result is already sorted by contact_id
@@ -76,9 +74,8 @@ class CRM_Donationreceipts_Page_Jahresbescheinigungen extends CRM_Core_Page {
         $file_id = saveDocument($user, $basename, "application/pdf", "Jahresbescheinigungen", date("Y-m-d h:i:s"), $from_date, $to_date, "Sammeldatei Jahresbescheinigungen $year");
 
         $this->assign("url", CRM_Utils_System::url("civicrm/file", "reset=1&id=$file_id&eid=$user"));
-        $this->assign("year", $year);
       } else {
-        $this->assign("url", '');
+        CRM_Core_Error::fatal("Erstellen des Sammeldokuments fehlgeschlagen");
       }
     }    /* !empty($result) */
 

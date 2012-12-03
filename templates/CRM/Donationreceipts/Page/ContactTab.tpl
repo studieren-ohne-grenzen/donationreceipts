@@ -16,6 +16,32 @@
     You should have received a copy of the GNU Affero General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 *}
-<ul>
-  <li>Zuwendungsbescheinigung erstellen für: {foreach from=$bescheinigungen key=url item=label}<a target="_blank" href='{$url}'>{$label}</a>&nbsp;&nbsp;{/foreach}</li>
-</ul>
+
+<style>
+{literal}
+
+#actions {
+  margin: 1em;
+}
+
+ul.inline {
+  padding: 0 .5em;
+  display: inline;
+}
+
+ul.inline li {
+  padding: 0 .5em;
+  display: inline;
+}
+
+{/literal}
+</style>
+
+<div id='actions'>
+  Zuwendungsbescheinigung erstellen für:
+  <ul class='inline'>
+    {foreach from=$bescheinigungen key=label item=url}
+      <li><a target="_blank" href='{$url}'>{$label}</a></li>
+    {/foreach}
+  </ul>
+</div>

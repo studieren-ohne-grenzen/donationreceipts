@@ -99,7 +99,7 @@ function donationreceipts_civicrm_alterContent(&$content, $context, $tplName, &$
       $bescheinigungen = array();
       for ($year = date("Y") - 1; $year <= date("Y"); $year++) {
         $url = CRM_Utils_System::url("civicrm/donationreceipts/zuwendungsbescheinigung", "snippet=1&cid={$object->_contactId}&year=$year");
-        $bescheinigungen[$url] = "$year&nbsp;&nbsp;";
+        $bescheinigungen[$year] = $url;
       }
 
       $template = CRM_Core_Smarty::singleton();
