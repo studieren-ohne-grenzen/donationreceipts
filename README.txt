@@ -82,13 +82,6 @@ Beim Erstellen eines angepassten Templates für die eigene Organisation sollte
 das mitgelieferte Template als Grundlage verwendet werden. Das Format der
 Platzhalter für die variablen Felder dürfte selbsterklärend sein.
 
-Der von CiviCRM genutzte HTML->PDF Konverter ist leider nicht
-besonders gut, bei der Verwendung unterschiedlicher Schriftgrößen
-oder kursiver Schrift gerät er zum Teil beim Zeilenumbruch 
-durcheinander. Bis man die Templates soweit angepasst hat das
-das Layout der ersten Bescheinigungsseite passt sind also leider
-etwas HTML-Kenntnisse und Fummelarbeit nötig. :/
-
 === Menü ===
 
 Solange die Extension aktiv ist, wird im Untermenü "Contributions"
