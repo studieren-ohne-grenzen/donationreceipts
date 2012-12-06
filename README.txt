@@ -1,32 +1,53 @@
 == Installation ==
 
-Zunaechst muessen die Pfade fuer Erweiterungen eingerichtet werden, falls sie
-das noch nicht sind. Dazu muss der Dateisystm-Pfad fuer ein
-Extension-Verzeichnis unter
+Die Spendenbescheinigungs-Funktionalität ist als eine "CiviCRM Extension"
+implementiert. Die Installation erfolgt daher über die CiviCRM-eigene
+Extension-Verwaltung, unter:
 
-   Administration->System Settings->Directories->CiviCRM Extensions Directory
+   Administer->Customize Data and Screens->Manage Extensions
 
-eingestellt werden, zum Beispiel auf "/var/www/civicrm-extensions"; und die
-Resource-URL muss unter
+=== Vorbereiten der Extension-Pfade ===
 
-   Administration->System Settings->Resource URLs->Extension Resource URL
+Falls bisher keine anderen Extensions installiert wurden, kann es sein, dass
+die Pfade auch noch nicht eingerichtet sind -- beim Aufruf der
+Extension-Verwaltung erscheint dann eine entsprechende Fehlermeldung. In dem
+Fall muss dann -- wie angewiesen -- zunächst der (Dateisystm-)Pfad für ein
+Extension-Verzeichnis eingestellt werden, zum Beispiel
+"/var/www/civicrm-extensions".
 
-entsprechend gesetzt werden, zum Beispiel auf "https://<domain>/civicrm-extensions".
+Daraufhin erscheint dann eine Warnung, dass die Resource-URL für Extensions
+nicht gesetzt ist. Das spielt eigentlich keine Rolle, da für die
+Spendenbescheinigungs-Extension keine Resourcen benötigt werden; aber um die
+nervige Warnung wegzubekommen, muss man trotzdem die URL konfigurieren --
+beispielsweise "https://<domain>/civicrm-extensions".
 
-Die Extension kann nun installiert werden. Dazu wird das gesammte Verzeichnis
-"sfe.donationreceipts" in das Extension-Verzeichnis kopiert. Danach ist die
-Extension unter
+=== Automatisierte Installation ===
 
-   Administration->Customize Data and Screens->Manage Extensions
+In Zukunft soll die Extension über das offizielle Extension-Directory verfügbar
+sein. Wenn das passiert ist, wird sie in der Extension-Verwaltung direkt zur
+Installation angeboten; der Vorgang erfolgt dann weitgehend automatisch.
 
-verfuegbar, und kann mit "Install" aktiviert werden.
+=== Manuelle Installation ===
+
+Versionen, die noch nicht im offiziellen Extension-Directory verfügbar sind,
+können stattdessen manuell heruntergeladen und installiert werden. Dafür muss
+das heruntergeladene Archiv entpackt, und das gesammte Verzeichnis
+"sfe.donationreceipts" in das konfigurierte Extension-Verzeichnis (also
+beispielsweise "/var/www/civicrm-extensions") auf dem Webserver kopiert werden.
+
+Danach steht die Extension dann ebenfalls in der Extension-Verwaltung zur
+automatisierten Installation bereit.
 
 == Konfiguration ==
 
-=== Custom Felder für die Dokumentablage ===
+Bevor Spendenbescheinigungen erzeugt werden können, müssen noch einige Dinge
+beachtet werden.
 
-Bei der Installation wird automatisch eine Benutzerdefinierte Feldgruppe
-"Bescheinigungen" angelegt.
+=== Custom-Felder für die Dokumentablage ===
+
+Bei der Installation wird für Kontakte automatisch eine benutzerdefinierte
+Feldgruppe "Bescheinigungen" angelegt, in der erstelle Spendenbescheinigungen
+gespeichert werden.
 
 Dies kann eventuell fehlschlagen, falls es Namenskonflikte mit bereits
 vorhandenen benutzerdefinierten Feldern gibt. In dem Fall sind wahrscheinlich
@@ -43,14 +64,14 @@ beheben...)
 Zuwendungen werden auf den Bescheinigungen -- je nach Zuwendungsart -- entweder
 als "Mitgliedsbeitrag" oder als "Geldzuwendung" ausgewiesen. Die Entscheidung
 erfolgt anhand einer einfachen Heuristik: Wenn in der Bezeichnung der
-Zuwendungsart das "Mitgliedsbeitrag" (oder "mitgliedsbeitrag") vorkommt -- auch
-in Kombinationen wie "Mitgliedsbeitrag ermaeszigt", oder
-"Foerdermitgliedsbeitrag" -- wird es als "Mitgliedsbeitrag" ausgewiesen; in
-allen anderen Faellen -- zum Beispiel bei "Spenden" -- hingegen als
-"Geldzuwendung".
+Zuwendungsart das Wort "Mitgliedsbeitrag" (oder "mitgliedsbeitrag") vorkommt --
+auch in Kombinationen wie "Mitgliedsbeitrag ermäßigt", oder
+"Fördermitgliedsbeitrag" -- wird die Zuwendung als "Mitgliedsbeitrag"
+ausgewiesen; in allen anderen Fällen -- zum Beispiel bei "Spende" -- hingegen
+als "Geldzuwendung".
 
 Falls Zuwendungsarten konfiguriert sind, die mit dieser Heuristik nicht richtig
-zugeordnet werden, muessen diese entsprechend umbenannt werden...
+zugeordnet werden, müssen diese entsprechend umbenannt werden...
 
 Es werden nur Zuwendungsarten berücksichtigt, bei denen "Tax-deductible"
 gesetzt ist; für andere Zuwendungsarten werden grundsätzlich keine
@@ -58,102 +79,105 @@ Spendenbescheinigungen erzeugt.
 
 Die Verwaltung von Zuwendungsarten erfolgt unter:
 
-   Administration->CiviContribute->Contribution Types
+   Administer->CiviContribute->Contribution Types
 
-=== Bescheinigungs-Templates ===
+=== Bescheinigungs-Template ===
 
-Das Template für Zuwendungsbescheinigungen wird bei der Installation der
-Extension als zusätzliche "System Workflow Message" angelegt, unter der
-Bezeichnung "Donationreceipts - Zuwendungsbescheinigung". Es kann unter
+Um Bescheinigungen erzeugen zu können, muss zunächst deren Aussehen festgelegt
+werden. Das erfolgt mit Hilfe eines HTML-Templates. Dieses wird beim Erzeugen
+der Spendenbescheinigungen zunächst mit der Template-Engine "Smarty"
+verarbeitet, um die Werte der variablen Felder einzusetzen. Das Ergebnis wird
+dann in PDF-Dateien umgewandelt.
 
-   Administer->Communications->Message Tempates->System Worflow Messages
+Das Template ist im System als ein "System Workflow Message Template" abgelegt,
+und ist als solches unter
 
-bearbeitet werden. Neben dem Template-Inhalt können hier auch die gewünschten
-Papierformate eingestellt werden.
+   Administer->Communications->Message Templates
 
-Von dem Template wird nur die HTML-Variante verwendet -- die Text-Variante
-sollte leer gelassen werden.
+unter dem Reiter "System Worflow Messages" verfügbar, als "Donationreceipts -
+Zuwendungsbescheinigung".
 
-Das HTML-Template wird beim Erzeugen der Spendenbescheinigungen zunächst mit
-der Template-Engine "Smarty" verarbeitet, um die Werte der variablen Felder
-einzusetzen. Das Ergebnis wird dann in PDF-Dateien umgewandelt.
+Das mit der Extension mitinstallierte Default-Template ist nach den (früher
+verbindlichen) Mustern der Finanzverwaltung gestaltet. Bevor es benutzt werden
+kann, muss es aber an die eigene Organisation angepasst werden. Zumindest
+grundlegende Daten wie die Adresse müssen unbedingt eingetragen werden; das
+Template kann aber auch völlig anders gestaltet werden. Das mitgelieferte
+Default-Template sollte in jedem Fall als Orientierung verwendet werden -- die
+Platzhalter für die variablen Felder dürften damit einigermaßen selbsterklärend
+sein.
 
-Beim Erstellen eines angepassten Templates für die eigene Organisation sollte
-das mitgelieferte Template als Grundlage verwendet werden. Das Format der
-Platzhalter für die variablen Felder dürfte selbsterklärend sein.
+Neben der Anpassung des eigentlichen Inhalts, muss in der Template-Verwaltung
+auch das Papierformat für die Bescheinigungen ausgewählt werden. Verfügbare
+Papierformate müssen dafür zunächst unter
+
+  Administer->Communications->Print Page (PDF) Formats
+
+eingerichtet werden.
+
+Zu beachten ist, dass beim Erzeugen der Bescheinigungen immer nur die
+HTML-Variante des Templates verwendet wird -- die Text-Variante wird ignoriert,
+und sollte daher leer gelassen werden.
 
 === Menü ===
 
-Solange die Extension aktiv ist, wird im Untermenü "Contributions"
-("Zuwendungen") am Ende der Punkt "Jahresbecheinigungen" angefügt. Achtung:
-Dieser Menüpunkt kann *nicht* mit dem Menüeditor bearbeitet werden! Er
-erscheint *immer* an dieser Stelle -- und er erscheint gar nicht, falls
-"Contributions" nicht vorhanden ist.
+Solange die Extension aktiv ist, wird im Menü "Contributions" ("Zuwendungen")
+am Ende der Punkt "Jahresbecheinigungen" angefügt. Achtung: Dieser Menüpunkt
+kann *nicht* mit dem Menüeditor bearbeitet werden! Er erscheint *immer* an
+dieser Stelle -- und er erscheint gar nicht, falls "Contributions" nicht
+vorhanden ist.
 
 == Bedienung ==
 
-=== Einzelbescheinigung unterjährig ===
+Die bei der Installation automatisch angelegte Benutzerdefinierte Feldgruppe
+"Bescheinigungen" erscheint in der Kontaktansicht als eigener Reiter. Über
+diesen werden alle Spendenbescheinigungen für den jeweiligen Kontakt verwaltet.
 
-Die bei der Installation angelegte Feldgruppe "Bescheinigungen" erscheint in
-der Kontaktansicht als zusätzlicher Reiter. Dort können bereits erstellte
-Bescheinigungen für diesen Kontakt eingesehen werden; und dort kann auch die
-Erstellung einer Bescheinigung angestoßen werden. Der erfasste
-Bescheinigungszeitraum reicht dabei vom Enddatum der letzten
-erstellten Bescheinigung bzw. vom Jahresanfang (der spätere
-Wert von beiden gewinnt) bis zum aktuellen Datum.
+Bereits erstellte Bescheinigungen können hier angesehen, und bei Bedarf erneut
+heruntergeladen werden. Zudem können fehlerhafte Bescheinigungen gelöscht
+werden.
 
-Weiterhin ist es möglich eine Bescheinigung für das Vorjahr
-zu erstellen.
+(Technisch ist es auch möglich, vorhandene Datensätze per Hand zu editieren,
+oder gar neue zu erstellen... Dafür gibt es aber kaum sinnvolle Gründe.)
 
-In beiden Fällen ist sichergestellt das Zahlungen die in
-schon erstellten Bescheinigungen erfasst sind nicht noch
-ein zweites mal in neue Bescheinigungen aufgenommen werden.
+Außerdem werden am Anfang der Seite zwei Links eigeblendet, mit denen jederzeit
+Bescheinigungen für das jeweils laufende sowie das vorhergehende Jahr erstellt
+werden können. Wenn in dem gewählten Zeitraum mehrere Zuwendungen erfolgt sind,
+wird eine Sammelbescheinigung über den gesamten Zeitraum ausgestellt. Wenn nur
+eine einzelne Zuwendung vorliegt, wird eine Einzelbescheinigung für diese
+Zuwendung erstellt. Wenn für den Kontakt gar keine Zuwendungen in dem Zeitraum
+vorliegen, wird keine Bescheinigung erstellt, und es wird eine entsprechende
+Meldung angezeigt.
 
-Soll also eine Bescheinigung für einen eigentlich schon
-bescheinigten Zeitraum, zB. nach Korrekturen an den
-erfassten Zahlungen, noch einmal erstellt werden so sind
-zunächst eventuell schon existierende Bescheinigungen für
-den gewünschten Zeitraum manuell zu löschen (siehe nächsten 
-Abschnitt).
-
-=== Einzelne Bescheinigungen löschen ===
-
-Entsprechende CiviCRM-Rechte vorausgesetzt können einzelne
-Bescheinigungen gelöscht werden. Hierzu wird öben in jedem
-Bescheinigungseintrag im neuen Reiter "Bescheinigungen"
-ein "Löschen" Button eingeblendet wenn der aktuelle CiviCRM
-Benutzer über das Recht zum Löschen von Kontaktdaten verfügt.
+Falls der jeweilige Kontakt für das Jahr bereits Bescheinigungen vorliegen hat,
+wird nur der Zeitraum seit der letzen erstellten Bescheinigung betrachtet. So
+können unterhalb des Jahres wiederholt Bescheinigungen ausgestellt werden, ohne
+dass es zu Dopplungen kommt. Für einen bereits bescheinigten Zeitraum kann nur
+dann erneut eine Bescheinigung erstellt werden, wenn man die bereits
+hinterlegte Bescheinigung vorher explizit löscht.
 
 === Gesammelte Jahresbescheinigungen ===
 
-Ein Batchlauf zur Erstellung aller noch anstehenden 
-Zuwendungsbescheinigungen für das Vorjahr können
-angestoßen werden über:
+Des Weiteren können über den Menüpunkt "Contributions->Jahresbescheinigungen"
+für das vorherige Jahr automatisch in einem Durchlauf Bescheinigungen für alle
+Kontakte erstellt werden, die noch unbescheinigte Zuwendungen haben, und für
+die Adressdaten hinterlegt sind. (Kontakte ohne Adressdaten werden bei diesem
+Batchlauf nicht berücksichtigt; es ist aber möglich, per Hand Bescheinigungen
+für einzelne Kontakte auch ohne Adresse zu erstellen.) Die jeweiligen Kontakte
+werden genauso behandelt wie bei einzeln erzeugten Bescheinigungen -- es werden
+also nur Zuwendungen aufgenommen, für die noch keine Bescheinigung vorliegt.
 
-   Contributions->Jahresbescheinigungen
+Die so erstellten Bescheinigungen werden zum einen direkt bei den jeweiligen
+Kontakten hinterlegt, genauso wie bei einzeln generierten Bescheinigungen. (Ein
+spezieller Kommentar vermerkt, dass diese Bescheinigungen als Batchlauf erzeugt
+wurden; so dass man einfach nach diesen suchen kann.) Zusätzlich wird am Ende
+des Vorgangs eine Sammeldatei erzeugt, die alle beim Batchlauf erzeugten
+Jahresbescheinigungen in einem großen PDF-Dokument zusammenfasst. Diese
+Sammeldatei wird dann zum Download angeboten. Außerdem wird die Sammeldatei als
+spezielle Bescheinigung bei dem Nutzer hinterlegt, der die Erzeugung dieser
+Jahresbescheinigungen ausgelöst hat.
 
-Die Erstellung jeder einzelnen Bescheinigung nimmt dabei
-jeweils etwa eine Sekunde in Anspruch (hängt natürlich
-von der genauen Ausstattung des Webservers ab, der
-Schätzwert von einer Bescheinigung pro Sekunde hilft
-aber die ungefähre Dauer des gesamten Laufes abzuschätzen).
-
-Die erstellten Bescheinigungen werden dabei direkt bei den jeweiligen Kontakten
-hinterlegt, genauso wie bei einzeln generierten Bescheinigungen. Zusätzlich
-wird am Ende des Vorgangs eine Sammeldatei erzeugt, das alle beim Batchlauf
-erzeugten Jahresbescheinigungen in einem großen PDF-Dokument zusammenfasst.
-Diese Sammeldatei wird dann zum Download angeboten. Außerdem wird die
-Sammeldatei als spezielle Bescheinigung bei dem Nutzer hinterlegt, der die
-Erzeugung der Jahresbescheinigungen ausgelöst hat.
-
-(Sollte die Erstellung der PDFs zu lange dauern, und der Browser mit einem
-Timeout abbrechen, wird die Sammeldatei trotzdem bei dem Nutzer hinterlegt,
-sobald sie fertig generiert ist; und kann dann von dort heruntergeladen
-werden.)
-
-Innerhalb des Sammeldokuments sind die einzelnen Bescheinigungen
-nach der CiviCRM-ID der jeweiligen Kontakte sortiert. Da diese
-Sortierung garantiert zuverlässig ist, können die so gedruckten
-Bescheinigungen beispielsweise bei einem Lettershop automatisch
-mit ebenfalls aus CiviCRM exportierten Adressdaten zusammengeführt
-werden.
+Innerhalb des Sammeldokuments sind die einzelnen Bescheinigungen nach den
+CiviCRM-IDs der jeweiligen Kontakte sortiert. Da diese Sortierung garantiert
+zuverlässig ist, können die so gedruckten Bescheinigungen beispielsweise bei
+einem Lettershop automatisch mit ebenfalls aus CiviCRM exportierten Adressdaten
+zusammengeführt werden.
