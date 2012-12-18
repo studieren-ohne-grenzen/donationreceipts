@@ -94,7 +94,7 @@ und ist als solches unter
 
    Administer->Communications->Message Templates
 
-unter dem Reiter "System Worflow Messages" verfügbar, als "Donationreceipts -
+unter dem Reiter "System Workflow Messages" verfügbar, als "Donationreceipts -
 Zuwendungsbescheinigung".
 
 Das mit der Extension mitinstallierte Default-Template ist nach den (früher
