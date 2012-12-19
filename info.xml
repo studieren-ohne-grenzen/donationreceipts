@@ -3,6 +3,10 @@
   <file>donationreceipts</file>
   <name>Spendenbescheinigungen (German donation receipts)</name>
   <description>Komfortables Erstellen von Einzel- und Sammelbescheinigungen für steuerlich absetzbare Zuwendungen.</description>
+  <urls>
+    <url desc="Documentation">http://sfe-ev.org/extensions/donationreceipts</url>
+    <url desc="Support">http://sfe-ev.org/mailinglist</url>
+  </urls>
   <license>GNU AGPL v3 or later</license>
   <maintainer>
     <author>Software für Engagierte e.V.</author>
