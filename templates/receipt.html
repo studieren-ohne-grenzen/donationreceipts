@@ -83,15 +83,6 @@ h1 {
   width: 45%;
 }
 
-ul.address {
-  padding: 0;
-  margin: 0;
-}
-
-ul.address li {
-  display: block;
-}
-
 
 #amounts {
   margin-top: 8em;
@@ -235,18 +226,14 @@ h2 {
   </tr>
   <tr>
     <td class='donor'>
-      <ul class='address'>
-        <li>{$donor.name}</li>
-        <li>{$donor.street_address}</li>
-        <li>{$donor.postal_code} {$donor.city}</li>
-      </ul>
+      {$donor.name}<br />
+      {$donor.street_address}<br />
+      {$donor.postal_code} {$donor.city}
     </td>
     <td class='issuer'>
-      <ul class='address'>
-        <li>...Name...</li>
-        <li>...Straße Hausnr...</li>
-        <li>...PLZ Ort...</li>
-      </ul>
+      ...Name...<br />
+      ...Straße Hausnr...<br />
+      ...PLZ Ort...
     </td>
   </tr>
 </table>    <!-- parties -->
