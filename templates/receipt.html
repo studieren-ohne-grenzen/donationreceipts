@@ -20,16 +20,23 @@
 
 body {
   font-family: Helvetica,sans-serif;
-  font-size: 9pt;
+  font-size: 8pt;
+  margin: 0;
+}
+
+.box {
+  padding: 0 3pt;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
+  font-size: inherit;    /* Not sure why this is necessary when testing in Firefox... dompdf seems to work pefectly fine without it for a change. */
 }
 
 td, th {
   border: thin solid;
+  padding: 3pt;
 }
 
 /* Tables with headers appearing merged into content cells. */
@@ -45,63 +52,43 @@ table.merged td {
   border-top: none;
 }
 
-
-h1 {
-  margin-top: 0;
-  font-size: 13pt;
-}
-
-.subtitle {
-  margin-top: 2em;
+/* Variable content inserted into template. */
+.var {
   font-size: 10pt;
 }
 
 
-#parties {
-  margin-top: 4em;
-}
-
-#parties th {
-  text-align: left;
-  font-size: 6pt;
+.party th {
   font-weight: normal;
-  padding: 9pt;
+  text-align: left;
 }
 
-#parties td {
-  font-size: 12pt;
-  padding: 9pt;
+.party td {
+  padding-top: .5em;
 }
 
-/* Styling of columns is rather inelegant, because dompdf doesn't support style definitions on table columns directly, so we have to work around that with cell styling... */
 
-#parties .donor {
-  border: none;
-}
-
-#parties .issuer {
-  width: 45%;
+h1 {
+  font-size: 10pt;
 }
 
 
 #amounts {
-  margin-top: 8em;
+  margin-top: 2em;
   table-layout: fixed;    /* Doesn't actually work in dompdf... Need to explicitly set widths for each column if it's important :-( */
 }
 
-#amounts th, #amounts td {
-  padding: 3pt;
-  text-align: center;
-}
-
 #amounts th {
-  font-size: 6pt;
   font-weight: normal;
+  text-align: left;
 }
 
 #amounts td {
-  font-weight: bold;
-  padding-top: 0;
+  padding-top: 1em;
+}
+
+#amounts #total {
+  text-align: right;
 }
 
 
@@ -130,7 +117,7 @@ ul.radio li {
   margin-right: -16px;    /* Workaround for dompdf's failure to overlap the following block's margin with the float, unless the float has exactly 0 layout width... */
 }
 
-#exempt span {
+#exempt #text {
   margin-left: 24px;
   display: block;
 }
@@ -139,16 +126,12 @@ ul.radio li {
 #pledge {
   margin-top: 3em;
   border: thin solid;
-  padding: 1em;
-}
-
-#pledge p {
-  margin: 0;
+  padding: 3pt;    /* padding also at top/bottom, unlike unbordered boxes */
 }
 
 
 #signature {
-  margin-top: 2em;
+  margin-top: 5em;
 }
 
 #signature hr {
@@ -157,8 +140,6 @@ ul.radio li {
 }
 
 #signature .caption {
-  font-size: 6pt;
-  text-align: right;
   margin: 0;
 }
 
@@ -166,7 +147,6 @@ ul.radio li {
 .footnote {
   position: absolute;
   bottom: 0;
-  font-size: 6pt;
 }
 
 .footnote p {
@@ -179,13 +159,9 @@ ul.radio li {
 }
 
 h2 {
-  font: inherit;
+  font-size: 10pt;    /* Same size as main heading, like in the official forms. */
 }
 
-
-#listing th, #listing td {
-  padding: .3em;
-}
 
 #listing td.amount {
   text-align: right;
@@ -215,28 +191,28 @@ h2 {
 {/literal}
 </style>
 
-<h1>{if $items}Sammelbestätigung{else}Bestätigung{/if} über Geldzuwendungen/{if $items}Mitgliedsbeiträge{else}Mitgliedsbeitrag{/if}</h1>
+<table class='party merged'>
+  <tr><th>Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung)</th></tr>
+  <tr><td class='var'>
+    ...Name...<br />
+    ...Straße Hausnr...<br />
+    ...PLZ Ort...
+  </td></tr>
+</table>
 
-<p class='subtitle'>im Sinne des § 10b des Einkommensteuergesetzes an eine der in § 5 Abs. 1 Nr. 9 des Körperschaftsteuergesetzes bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen</p>
+<div class='box' id='heading'>
+  <h1>{if $items}Sammelbestätigung{else}Bestätigung{/if} über Geldzuwendungen/{if $items}Mitgliedsbeiträge{else}Mitgliedsbeitrag{/if}</h1>
+  <p class='subtitle'>im Sinne des § 10b des Einkommensteuergesetzes an eine der in § 5 Abs. 1 Nr. 9 des Körperschaftsteuergesetzes bezeichneten Körperschaften, Personenvereinigungen oder Vermögensmassen</p>
+</div>
 
-<table id='parties' class='merged'>
-  <tr>
-    <th class='donor'>Name und Anschrift des Zuwendenden:</th>
-    <th class='issuer'>Aussteller (Bezeichnung und Anschrift der steuerbegünstigten Einrichtung)</th>
-  </tr>
-  <tr>
-    <td class='donor'>
-      {$donor.name}<br />
-      {$donor.street_address}<br />
-      {$donor.postal_code} {$donor.city}
-    </td>
-    <td class='issuer'>
-      ...Name...<br />
-      ...Straße Hausnr...<br />
-      ...PLZ Ort...
-    </td>
-  </tr>
-</table>    <!-- parties -->
+<table class='party merged'>
+  <tr><th>Name und Anschrift des Zuwendenden:</th></tr>
+  <tr><td class='var'>
+    {$donor.name}<br />
+    {$donor.street_address}<br />
+    {$donor.postal_code} {$donor.city}
+  </td></tr>
+</table>
 
 <table id='amounts' class='merged'>
   <tr>
@@ -244,8 +220,8 @@ h2 {
     <th>- in Buchstaben -</th>
     <th>{if $items}Zeitraum der Sammelbestätigung{else}Tag der Zuwendung{/if}:</th>
   </tr>
-  <tr>
-    <td>{$total} Euro</td>
+  <tr class='var'>
+    <td id='total'>{$total} Euro</td>
     <td>{$totaltext} Euro</td>
     <td>{if $items}{$daterange}{else}{$date}{/if}</td>
   </tr>
@@ -256,7 +232,7 @@ h2 {
 <div id='checks'>
 
 {if !$items}
-<div>
+<div class='box'>
   Es handelt sich um den Verzicht auf Erstattung von Aufwendungen
   <ul class='radio'>
     <li>Ja&nbsp;<img alt='box' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAAXNSR0IArs4c6QAAAAZQTFRFAICPAAAAobuvMAAAAAF0Uk5TAEDm2GYAAAASSURBVAjXY/j/n6GBkVj0/z8ADKgLC9bAGB0AAAAASUVORK5CYII=' border='0'/></li>
@@ -265,35 +241,36 @@ h2 {
 </div>
 {/if}
 
-<div id='exempt'>
+<div id='exempt' class='box'>
   <img alt='box mit kreuz' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAAXNSR0IArs4c6QAAAAZQTFRFAOjHAAAAVlnjbgAAAAF0Uk5TAEDm2GYAAAArSURBVAjXY/j/n6GBEYRmSDLMsWToK2Rof8jQfBCEgAwgFygIlIKo+f8fAIrUEGMSLhXuAAAAAElFTkSuQmCC' border='0'/>
-  <span>
-    Wir sind wegen Förderung
-    ...Begründung...
-    nach dem letzten uns zugegangenen Freistellungsbescheid bzw. nach der Anlage zum Körperschaftsteuerbescheid des Finanzamtes
-    ...Ort...,
-    StNr
-    ...Nummer...,
-    vom
-    ...Datum...
+  <span id='text'>
+    Wir sind wegen Förderung<br />
+    <span class='var'>...Begründung...</span><br />
+    nach dem letzten uns zugegangenen Freistellungsbescheid bzw. nach der Anlage zum Körperschaftsteuerbescheid des<br />
+    Finanzamtes <span class='var'>...Ort...</span>,
+    StNr <span class='var'>...Nummer...</span>,
+    vom <span class='var'>...Datum...</span><br />
     nach § 5 Abs. 1 Nr. 9 des Körperschaftsteuergesetzes von der Körperschaftsteuer und nach § 3 Nr. 6 des Gewerbesteuergesetzes von der Gewerbesteuer befreit.
   </span>
 </div>
 
 </div>    <!-- checks -->
 
-<div id='pledge'>
-  <p>Es wird bestätigt, dass die Zuwendung nur zur Förderung
-  ...Zweck...
-  verwendet wird.</p>
-  {if $items}
-    <p>Es wird bestätigt, dass über die in der Gesamtsumme enthaltenen Zuwendungen keine weiteren Bestätigungen, weder formelle Zuwendungsbestätigungen noch Beitragsquittungen oder ähnliches ausgestellt wurden und werden.</p>
-    <p>Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anlage zur Sammelbestätigung zu entnehmen.</p>
-  {/if}
+<div id='pledge' class='box'>
+  Es wird bestätigt, dass die Zuwendung nur zur Förderung<br />
+  <span class='var'>...Zweck...</span><br />
+  verwendet wird.
 </div>
 
-<div id='signature'>
-  <p>
+{if $items}
+  <div class='box'>
+    <p>Es wird bestätigt, dass über die in der Gesamtsumme enthaltenen Zuwendungen keine weiteren Bestätigungen, weder formelle Zuwendungsbestätigungen noch Beitragsquittungen oder ähnliches ausgestellt wurden und werden.</p>
+    <p>Ob es sich um den Verzicht auf Erstattung von Aufwendungen handelt, ist der Anlage zur Sammelbestätigung zu entnehmen.</p>
+  </div>
+{/if}
+
+<div id='signature' class='box'>
+  <p class='var'>
     ...Ort...,
     den {$today}
   </p>
@@ -301,7 +278,7 @@ h2 {
   <p class='caption'>(Ort, Datum und Unterschrift des Zuwendungsempfängers)</p>
 </div>
 
-<div class='footnote'>
+<div class='box footnote'>
   <p><strong>Hinweis:</strong><br />Wer vorsätzlich oder grob fahrlässig eine unrichtige Zuwendungsbestätigung erstellt oder wer veranlasst, dass Zuwendungen nicht zu den in der Zuwendungsbestätigung angegebenen steuerbegünstigten Zwecken verwendet werden, haftet für die entgangene Steuer (§ 10b Abs. 4 EStG, § 9 Abs. 3 KStG, § 9 Nr. 5 GewStG).</p>
   <p>Diese Bestätigung wird nicht als Nachweis für die steuerliche Berücksichtigung der Zuwendung anerkannt, wenn das Datum des Freistellungsbescheides länger als 5 Jahre bzw. das Datum der vorläufigen Bescheinigung länger als 3 Jahre seit Ausstellung der Bestätigung zurückliegt (BMF vom 15.12.1994 - BStBl I S. 884).</p>
   <p>
@@ -312,7 +289,7 @@ h2 {
 
 <div class='newpage'>
 {if $items}
-<h2>Anlage zur Sammelbestätigung vom {$today}</h2>
+<h2 class='box'>Anlage zur Sammelbestätigung vom {$today}</h2>
 
 <table id='listing'>
   <tr><th>Datum der Zuwendung</th><th>Art der Zuwendung</th><th>Verzicht auf die Erstattung von Aufwendungen</th><th>Betrag</th></tr>
