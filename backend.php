@@ -462,6 +462,14 @@ function render_beleg_pdf($contact_id, $address, $total, $items, $from_date, $to
     $rangespec = date("Y-m-d",$from_ts) . "_" . date("m-d",$to_ts);
   }
 
+  $domain = CRM_Core_BAO_Domain::getDomain();
+  $domain_tokens = array();
+  foreach (array('name', 'address') as $token) {
+    $domain_tokens[$token] = CRM_Utils_Token::getDomainTokenReplacement($token, $domain, true, true);
+  }
+  $domain_tokens['address'] = str_replace('> <', '>&nbsp;<', $domain_tokens['address']);    /* Hack to work around (yet another) bug in dompdf... */
+  $template->assign('organisation', $domain_tokens);
+
   $html = $template->fetch("string:$html");
 
   // set up file names

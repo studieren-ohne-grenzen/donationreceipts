@@ -67,6 +67,10 @@ table.merged td {
   padding-top: .5em;
 }
 
+#issuer .country-name {
+  display: none;
+}
+
 
 h1 {
   font-size: 10pt;
@@ -203,9 +207,8 @@ h2 {
 <table class='merged'>
   <tr><th>Aussteller</th></tr>
   <tr><td class='var'>
-    ...Name...<br />
-    ...Straße Hausnr...<br />
-    ...PLZ Ort...
+    {$organisation.name}<br />
+    {$organisation.address}
   </td></tr>
 </table>
 </section>
