@@ -176,6 +176,7 @@ function setup_template()
   );
   if (!$existing['count']) {    /* Don't have any template stored yet => install it from scratch. */
 
+    /* First, create the option group and value. */
     $new = civicrm_api(
       'OptionGroup',
       'create',
@@ -199,7 +200,7 @@ function setup_template()
 
     /* There is no API yet for adding message templates, so need to do it "by hand" through BAO. */
     $new_value = $new['values'][$new['id']]['api.OptionValue.create'][0];
-    /* Create an editable entry, as well as a reserved one for the "Revert to Default" functionality. */
+    /* Create an active (editable) entry, as well as a reserved fallback copy for the "Revert to Default" functionality. */
     foreach (array(false, true) as $reserved) {
       $params = array(
         'msg_title' => "Donationreceipts - {$new_value['values'][0]['label']}",
