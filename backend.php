@@ -156,11 +156,26 @@ function get_docs_table()
 
 define('OPTION_GROUP_NAME', 'msg_tpl_workflow_donationreiceipts');
 
-/* Create receipt template (along with matching custom values and a custom group), unless the group already exists. */
+/* Create or upgrade receipt template.
+ * Create the template (along with matching custom values and a custom group), if none exist yet;
+ * otherwise, replace with the variant we are shipping, which might differ from any previously installed one.
+ * When upgrading, if the active template has not been modified by the admin, replace it too;
+ * otherwise, replace only the fallback copy used for reverting. */
 function setup_template()
 {
-  $existing = civicrm_api('OptionGroup', 'get', array('version' => 3, 'name' => OPTION_GROUP_NAME));
-  if (!$existing['count']) {
+  $new_html = file_get_contents(__DIR__ . '/templates/receipt.html');
+
+  $existing = civicrm_api(
+    'OptionGroup',
+    'get',
+    array(
+      'version' => 3,
+      'name' => OPTION_GROUP_NAME,
+      'api.OptionValue.get' => array()
+    )
+  );
+  if (!$existing['count']) {    /* Don't have any template stored yet => install it from scratch. */
+
     $new = civicrm_api(
       'OptionGroup',
       'create',
@@ -188,7 +203,7 @@ function setup_template()
     foreach (array(false, true) as $reserved) {
       $params = array(
         'msg_title' => "Donationreceipts - {$new_value['values'][0]['label']}",
-        'msg_html' => file_get_contents(__DIR__ . '/templates/receipt.html'),
+        'msg_html' => $new_html,
         'is_active' => 1,
         'workflow_id' => $new_value['id'],
         'is_default' => !$reserved,    /* The editable (non-reserved) entry is the one actually used/visible in the application. */
@@ -197,7 +212,25 @@ function setup_template()
       CRM_Core_BAO_MessageTemplates::add($params);
     }
 
-  }    /* if !$existing */
+  } else {    /* Already have some template stored => upgrade to the version we are shipping. */
+
+    $messageTemplates = new CRM_Core_BAO_MessageTemplates();
+    $messageTemplates->workflow_id = $existing['values'][$existing['id']]['api.OptionValue.get']['values'][0]['id'];
+    $messageTemplates->find();
+    while ($messageTemplates->fetch()) {
+      if ($messageTemplates->is_reserved) {    /* Fallback copy for reverting -- always upgrade this one. */
+        $old_fallback_html = $messageTemplates->msg_html;
+        $messageTemplates->msg_html = $new_html;
+        $messageTemplates->save();
+      } else {    /* Active template, possibly modified by user. */
+        $old_active_html = $messageTemplates->msg_html;
+        $active_id = $messageTemplates->id;
+      }
+    }
+    if ($old_active_html == $old_fallback_html) {    /* Template has not been modified by user => also upgrade active template. */
+      CRM_Core_BAO_MessageTemplates::revert($active_id);
+    }
+  }    /* have $existing */
 }    /* setup_templates() */
 
 /*
