@@ -1,4 +1,3 @@
-- Upgrade default template for changed requirements from tax administration
 - Check appropriate user permissions (e.g. "access contributions")
 - Improve user interface when generating individual receipts
    - Also add shortcut menu action(s) for individual receipts generation
