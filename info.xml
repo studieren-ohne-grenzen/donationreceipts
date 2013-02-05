@@ -12,9 +12,9 @@
     <author>Software für Engagierte e.V.</author>
     <email>info@sfe-ev.org</email>
   </maintainer>
-  <releaseDate>2013-01-16</releaseDate>
-  <version>1.1</version>
-  <develStage>beta</develStage>
+  <releaseDate>2013-02-05</releaseDate>
+  <version>1.1.1</version>
+  <develStage>stable</develStage>
   <compatibility>
     <ver>4.2</ver>
   </compatibility>
