@@ -1,3 +1,5 @@
+ - More automated release process -- hopefully should avoid botched release dates like in 1.1.2...
+
 1.1.2
  - Fix automatic installation from extension directory
 
