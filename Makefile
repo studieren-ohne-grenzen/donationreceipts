@@ -1,5 +1,5 @@
 VERSION := $(shell head -1 NEWS)
-DATE := $(shell date '+%y-%m-%d')
+DATE := $(shell date '+%Y-%m-%d')
 
 dist:
 	sed -i 's/<version>[^<]\+/<version>$(VERSION)/;s/<releaseDate>[^<]\+/<releaseDate>$(DATE)/' info.xml
