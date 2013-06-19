@@ -317,6 +317,13 @@ function generate_receipts($params)
     $and_contact_ids = "AND a.id IS NOT NULL";
   }
 
+  /* Name of table with contribution types differs between CiviCRM versions */
+  if (version_compare(CRM_Utils_System::version(), '4.3') >= 0) {
+    $financial_type = 'financial_type';
+  } else {
+    $financial_type = 'contribution_type';
+  }
+
   $query = " SELECT p.id
                   , p.addressee_display
                   , p.display_name
@@ -331,8 +338,8 @@ function generate_receipts($params)
                   , DATE(c.receive_date) AS date
                   , c.total_amount
                   , IF(
-                      contribution_type_id IN (
-                        SELECT id FROM civicrm_contribution_type WHERE name LIKE '%Mitgliedsbeitrag%' OR name LIKE '%mitgliedsbeitrag%'
+                      {$financial_type}_id IN (
+                        SELECT id FROM civicrm_{$financial_type} WHERE name LIKE '%Mitgliedsbeitrag%' OR name LIKE '%mitgliedsbeitrag%'
                       ),
                       'Mitgliedsbeitrag',
                       'Geldzuwendung'
@@ -352,7 +359,7 @@ function generate_receipts($params)
               WHERE p.is_deleted = 0
                 AND docs.id IS NULL
                 AND c.receive_date BETWEEN '$from_date' AND '$to_date'
-                AND c.contribution_type_id IN (SELECT id FROM civicrm_contribution_type WHERE is_deductible)
+                AND c.{$financial_type}_id IN (SELECT id FROM civicrm_{$financial_type} WHERE is_deductible)
                $and_contact_ids
            ORDER BY c.contact_id
                   , c.receive_date
