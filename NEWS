@@ -1,4 +1,5 @@
  - Compatibility with CiviCRM 4.4
+ - Create merged document in multiple passes
 
 1.2.1
  - declare 4.3 compatibility
