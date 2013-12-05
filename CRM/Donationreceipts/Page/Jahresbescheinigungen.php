@@ -60,18 +60,18 @@ class CRM_Donationreceipts_Page_Jahresbescheinigungen extends CRM_Core_Page {
       $config =& CRM_Core_Config::singleton( );
 
       // set up file names
-      $basename = CRM_Utils_File::makeFileName("Jahresbescheinigungen-$year.pdf");
-      $outfile = $config->customFileUploadDir . "$basename";
+      $baseName = CRM_Utils_File::makeFileName("Jahresbescheinigungen-$year.pdf");
+      $outFile = $config->customFileUploadDir . "$baseName";
 
-      $cmd = "cd " . $config->customFileUploadDir . "; pdftk " . join(" ", array_keys($docs)) . " cat output $outfile";
+      $cmd = "cd " . $config->customFileUploadDir . "; pdftk " . join(" ", array_keys($docs)) . " cat output $outFile";
 
       system($cmd);
 
-      if (file_exists($outfile)) {
+      if (file_exists($outFile)) {
         $session = CRM_Core_Session::singleton();
         $user = $session->get('userID');
 
-        $file_id = saveDocument($user, $basename, "application/pdf", "Jahresbescheinigungen", date("Y-m-d h:i:s"), $from_date, $to_date, "Sammeldatei Jahresbescheinigungen $year");
+        $file_id = saveDocument($user, $baseName, "application/pdf", "Jahresbescheinigungen", date("Y-m-d h:i:s"), $from_date, $to_date, "Sammeldatei Jahresbescheinigungen $year");
 
         $this->assign("url", CRM_Utils_System::url("civicrm/file", "reset=1&id=$file_id&eid=$user"));
       } else {
