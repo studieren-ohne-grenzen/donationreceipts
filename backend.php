@@ -156,9 +156,9 @@ function get_docs_table()
 
 function getMessageTemplateBAOClass() {
   if (version_compare(CRM_Utils_System::version(), '4.4') >= 0) {
-    return CRM_Core_BAO_MessageTemplate;
+    return 'CRM_Core_BAO_MessageTemplate';
   } else {
-    return CRM_Core_BAO_MessageTemplates;
+    return 'CRM_Core_BAO_MessageTemplates';
   }
 }
 
