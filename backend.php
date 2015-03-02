@@ -348,7 +348,7 @@ function generate_receipts($params)
                   , a.city
                   , s.name as country
                   , DATE(c.receive_date) AS date
-                  , c.total_amount
+                  , c.total_amount - IFNULL(c.non_deductible_amount, 0) AS amount
                   , IF(
                       {$financial_type}_id IN (
                         SELECT id FROM civicrm_{$financial_type} WHERE name LIKE '%Mitgliedsbeitrag%' OR name LIKE '%mitgliedsbeitrag%'
@@ -428,11 +428,11 @@ function generate_receipts($params)
     }
 
     // update total sum for this contact
-    $total += $res->total_amount;
+    $total += $res->amount;
 
     // update item list for this contact
     $items[] = array("date"   => $res->date, 
-		     "amount" => $res->total_amount,
+		     "amount" => $res->amount,
 		     "art"    => $res->art
 		     );
       

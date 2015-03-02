@@ -1,3 +1,5 @@
+ - Respect `non_deductible_amount`
+
 1.3.1
  - Declace 4.5 compatibility (no changes)
  - Notice fix
