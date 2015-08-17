@@ -133,7 +133,8 @@ function donationreceipts_civicrm_navigationMenu(&$menu) {
           'label' => 'Jahresbescheinigungen',
           'name' => 'receipts_batch',
           'url' => 'civicrm/donationreceipts/jahresbescheinigungen/confirm',
-          'active' => 1
+          'active' => 1,
+          'permission' => 'access CiviContribute'
         )
       );
     }
